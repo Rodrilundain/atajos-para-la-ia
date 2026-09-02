@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rodrigo Ilundain · Automatizaciones — Deck de comandos IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script>
+  (function(){
+    var t=null;
+    try{ t=localStorage.getItem('theme'); }catch(e){}
+    if(!t){ t=(window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light'; }
+    document.documentElement.setAttribute('data-theme',t);
+  })();
+</script>
+<style>
+  :root{
+    --bg:#F6F6F8;
+    --surface:#FFFFFF;
+    --surface-2:#FBFAFC;
+    --ink:#17161C;
+    --muted:#5E5D6B;
+    --faint:#9694A4;
+    --line:#EAE9F0;
+    --line-2:#DEDCE7;
+    --violet:#6D28D9;
+    --violet-600:#7C3AED;
+    --violet-ink:#5B21B6;
+    --violet-wash:#F3EFFC;
+    --accent:#D9480F;
+    --accent-wash:#FCEEE6;
+    --code-bg:#141018;
+    --code-ink:#E9E6F2;
+    --code-line:#2A2337;
+    --ok:#0E9F6E;
+    --on-ink:#FFFFFF;
+    --bar:rgba(246,246,248,.82);
+    --sh-1:0 1px 2px rgba(20,16,24,.05);
+    --sh-2:0 2px 8px rgba(20,16,24,.06);
+    --sh-3:0 18px 40px -20px rgba(76,29,149,.30);
+    --r-lg:16px;--r-md:11px;--r-sm:8px;--r-xs:6px;
+    --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --display:'Space Grotesk','Inter',sans-serif;
+  }
+  :root[data-theme="dark"]{
+    --bg:#0F0E13;
+    --surface:#18161F;
+    --surface-2:#211E2B;
+    --ink:#ECEAF3;
+    --muted:#A6A3B5;
+    --faint:#726F82;
+    --line:#282531;
+    --line-2:#37333F;
+    --violet:#8B5CF6;
+    --violet-600:#A78BFA;
+    --violet-ink:#C9B8F7;
+    --violet-wash:#241C36;
+    --accent:#FB8C3C;
+    --accent-wash:#2C1E14;
+    --code-bg:#0A0810;
+    --code-ink:#E9E6F2;
+    --code-line:#2A2337;
+    --ok:#34D399;
+    --on-ink:#141019;
+    --bar:rgba(15,14,19,.82);
+    --sh-1:0 1px 2px rgba(0,0,0,.3);
+    --sh-2:0 2px 10px rgba(0,0,0,.35);
+    --sh-3:0 18px 44px -18px rgba(0,0,0,.6);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:var(--sans);font-size:15px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  a{color:var(--violet-ink);text-decoration:none}
+  a:hover{color:var(--violet)}
+  ::selection{background:var(--violet);color:#fff}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* ---------- Topbar identity ---------- */
+  .topbar{border-bottom:1px solid var(--line);background:var(--surface)}
+  .topbar .wrap{display:flex;align-items:center;gap:16px;padding-top:16px;padding-bottom:16px}
+  .mark{
+    width:40px;height:40px;flex:0 0 auto;border-radius:10px;
+    background:var(--ink);color:var(--on-ink);display:grid;place-items:center;
+    font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:.5px;
+    position:relative;
+  }
+  .mark::after{content:"";position:absolute;inset:0;border-radius:10px;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+  .idblock{display:flex;flex-direction:column;line-height:1.15}
+  .idname{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:-.2px}
+  .idrole{color:var(--faint);font-size:12.5px;margin-top:1px}
+  .navlinks{margin-left:auto;display:flex;gap:6px}
+  .navlinks a{
+    color:var(--muted);font-size:13px;font-weight:500;padding:7px 12px;border-radius:var(--r-sm);
+    transition:background .12s,color .12s}
+  .navlinks a:hover{background:var(--violet-wash);color:var(--violet-ink)}
+  .themebtn{
+    width:38px;height:38px;flex:0 0 auto;display:grid;place-items:center;margin-left:2px;
+    background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-sm);
+    color:var(--muted);cursor:pointer;transition:color .12s,border-color .12s,background .12s}
+  .themebtn:hover{color:var(--violet-ink);border-color:var(--violet)}
+  .themebtn svg{width:18px;height:18px}
+  :root[data-theme="dark"] .icon-moon{display:none}
+  :root:not([data-theme="dark"]) .icon-sun{display:none}
+  @media(max-width:600px){.idrole{display:none}.navlinks a{padding:7px 9px}}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:52px 0 30px}
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);
+    font-size:12px;font-weight:500;color:var(--violet-ink);
+    background:var(--violet-wash);padding:5px 11px;border-radius:999px;margin-bottom:20px}
+  .kicker .pulse{width:6px;height:6px;border-radius:50%;background:var(--violet)}
+  h1.title{
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(34px,5.4vw,54px);line-height:1.02;letter-spacing:-1.5px;margin:0 0 18px}
+  .lede{font-size:18px;line-height:1.55;color:var(--muted);max-width:56ch;margin:0 0 30px}
+  .lede .num{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+
+  .searchbox{position:relative;max-width:680px}
+  .searchbox .slash{
+    position:absolute;left:12px;top:50%;transform:translateY(-50%);
+    width:30px;height:30px;border-radius:var(--r-xs);background:var(--ink);color:var(--on-ink);
+    display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:16px}
+  #q{
+    width:100%;padding:17px 108px 17px 54px;font-size:16.5px;font-family:var(--sans);
+    color:var(--ink);background:var(--surface);border:1.5px solid var(--line-2);
+    border-radius:var(--r-md);box-shadow:var(--sh-2);outline:none;
+    transition:border-color .14s,box-shadow .14s}
+  #q:focus{border-color:var(--violet);box-shadow:0 0 0 4px var(--violet-wash),var(--sh-2)}
+  #q::placeholder{color:var(--faint)}
+  .kbdhint{
+    position:absolute;right:14px;top:50%;transform:translateY(-50%);
+    display:flex;align-items:center;gap:5px;color:var(--faint);font-size:12px;pointer-events:none}
+  .kbd{
+    font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--surface-2);
+    border:1px solid var(--line-2);border-bottom-width:2px;border-radius:5px;padding:2px 6px;line-height:1.4}
+  @media(max-width:520px){.kbdhint{display:none}#q{padding-right:20px}}
+  .count{margin:16px 2px 0;font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .count b{color:var(--violet-ink);font-weight:600}
+
+  /* ---------- Setup console ---------- */
+  .setup{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);
+    margin:26px 0 4px;box-shadow:var(--sh-1);overflow:hidden}
+  .setup summary{
+    cursor:pointer;list-style:none;padding:15px 18px;font-weight:600;font-size:14.5px;
+    display:flex;align-items:center;gap:11px}
+  .setup summary::-webkit-details-marker{display:none}
+  .setup .tag{
+    font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--accent);
+    background:var(--accent-wash);padding:3px 8px;border-radius:var(--r-xs)}
+  .setup .arw{margin-left:auto;color:var(--faint);font-size:18px;transition:transform .18s}
+  .setup[open] .arw{transform:rotate(90deg)}
+  .setup[open] summary{border-bottom:1px solid var(--line)}
+  .setup-body{padding:16px 18px 20px}
+  .setup-body p{color:var(--muted);font-size:14px;line-height:1.55;margin:0 0 14px}
+  .prompt{
+    position:relative;background:var(--code-bg);color:var(--code-ink);border-radius:var(--r-sm);
+    padding:16px 16px;font-family:var(--mono);font-size:12.5px;line-height:1.7;
+    white-space:pre-wrap;word-break:break-word;border:1px solid var(--code-line)}
+  .copyp{
+    position:absolute;top:12px;right:12px;background:rgba(255,255,255,.09);
+    color:#fff;border:1px solid rgba(255,255,255,.14);border-radius:var(--r-xs);
+    padding:6px 12px;font-size:12px;font-family:var(--sans);font-weight:500;cursor:pointer;
+    transition:background .12s}
+  .copyp:hover{background:var(--violet)}
+
+  /* ---------- Filters (sticky) ---------- */
+  .filterbar{position:sticky;top:0;z-index:30;background:var(--bar);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);margin-top:22px}
+  .filterbar .wrap{display:flex;gap:7px;overflow-x:auto;padding-top:12px;padding-bottom:12px;
+    scrollbar-width:none}
+  .filterbar .wrap::-webkit-scrollbar{display:none}
+  .fbtn{
+    flex:0 0 auto;border:1px solid var(--line-2);background:var(--surface);
+    color:var(--muted);font-family:var(--sans);font-size:13px;font-weight:500;
+    padding:8px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;
+    transition:border-color .12s,color .12s,background .12s}
+  .fbtn .n{color:var(--faint);font-variant-numeric:tabular-nums;margin-left:6px;font-size:12px}
+  .fbtn:hover{border-color:var(--violet);color:var(--violet-ink)}
+  .fbtn.on{background:var(--violet);color:#fff;border-color:var(--violet)}
+  .fbtn.on .n{color:#D9C9F5}
+
+  /* ---------- Command groups ---------- */
+  main{padding-top:34px;padding-bottom:72px}
+  .group{margin-bottom:38px;scroll-margin-top:70px}
+  .grouphead{display:flex;align-items:center;gap:12px;margin:0 0 14px}
+  .grouphead .gcat{
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.3px;
+    color:var(--violet);background:var(--violet-wash);padding:4px 9px;border-radius:var(--r-xs);
+    white-space:nowrap}
+  .grouphead h2{font-family:var(--display);font-weight:600;font-size:18px;
+    letter-spacing:-.3px;margin:0;color:var(--ink)}
+  .grouphead .gcount{font-size:12.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+  .grouphead .line{flex:1;height:1px;background:var(--line)}
+
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+  @media(max-width:760px){.cards{grid-template-columns:1fr}}
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);
+    padding:15px 16px 15px 17px;cursor:pointer;position:relative;overflow:hidden;
+    display:flex;flex-direction:column;gap:7px;
+    transition:border-color .13s,transform .13s,box-shadow .13s}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:var(--violet);transform:scaleY(0);transform-origin:top;transition:transform .15s}
+  .card:hover{border-color:var(--line-2);box-shadow:var(--sh-2);transform:translateY(-1px)}
+  .card:hover::before{transform:scaleY(1)}
+  .card:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+  .card:active{transform:translateY(0)}
+  .card .code{font-family:var(--mono);font-weight:600;font-size:13.5px;color:var(--ink);
+    display:flex;align-items:center;gap:7px;flex-wrap:wrap;line-height:1.4;padding-right:56px}
+  .card .code .param{
+    color:var(--accent);font-weight:500;background:var(--accent-wash);
+    padding:1px 6px;border-radius:5px;font-size:12.5px}
+  .card .desc{font-size:13px;color:var(--muted);line-height:1.5}
+  .card .copyhint{
+    position:absolute;top:13px;right:13px;display:flex;align-items:center;gap:5px;
+    font-size:11px;font-weight:500;color:var(--faint);opacity:0;transition:opacity .13s}
+  .card .copyhint svg{width:13px;height:13px}
+  .card:hover .copyhint{opacity:1}
+
+  .empty{text-align:center;color:var(--muted);padding:64px 20px;font-size:15px;line-height:1.6}
+  .empty b{color:var(--ink)}
+  .empty .ebig{font-family:var(--display);font-size:20px;color:var(--ink);display:block;margin-bottom:6px}
+
+  /* ---------- Footer ---------- */
+  footer{border-top:1px solid var(--line);background:var(--surface)}
+  footer .wrap{padding-top:34px;padding-bottom:44px}
+  .fcreds{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+  .fcreds .chip{
+    font-size:12.5px;color:var(--muted);background:var(--surface-2);
+    border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+  .fcreds .chip b{color:var(--ink);font-weight:600}
+  .frow{display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap;align-items:flex-end}
+  .fname{font-family:var(--display);font-weight:600;font-size:17px;color:var(--ink)}
+  .ftag{color:var(--muted);font-size:13.5px;margin-top:3px}
+  .flinks{display:flex;gap:8px}
+  .flinks a{color:var(--muted);font-weight:500;font-size:13px;padding:7px 12px;border-radius:var(--r-sm);
+    transition:background .12s,color .12s}
+  .flinks a:hover{background:var(--violet-wash);color:var(--violet-ink)}
+  .src{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--faint);line-height:1.6;max-width:75ch}
+
+  /* ---------- Toast ---------- */
+  #toast{
+    position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(16px);
+    background:var(--ink);color:var(--on-ink);padding:12px 18px;border-radius:var(--r-md);font-size:14px;
+    font-weight:500;box-shadow:0 16px 40px -10px rgba(0,0,0,.5);opacity:0;pointer-events:none;
+    transition:opacity .2s,transform .2s;z-index:100;display:flex;align-items:center;gap:9px}
+  #toast::before{content:"";width:16px;height:16px;flex:0 0 auto;border-radius:50%;
+    background:var(--ok);
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/13px no-repeat;
+    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/13px no-repeat;
+    background-color:var(--on-ink)}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  #toast .tcmd{font-family:var(--mono);color:#C4B5FD}
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;scroll-behavior:auto!important}
+    .card::before{transition:none}
+  }
+
+  /* ---------- Print ---------- */
+  @media print{
+    body{background:#fff}
+    .filterbar,.searchbox,.kbdhint,.count,.setup,.copyhint,#toast,.navlinks{display:none!important}
+    .card{break-inside:avoid;box-shadow:none;border-color:#ccc}
+    .cards{gap:6px}
+    .hero{padding:20px 0}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="mark">RI</div>
+    <div class="idblock">
+      <span class="idname">Rodrigo Ilundain</span>
+      <span class="idrole">Data Analyst &amp; Automation Developer</span>
+    </div>
+    <nav class="navlinks">
+      <a href="https://rodrilundain.github.io/Rodrilundain/" target="_blank" rel="noopener">Portfolio</a>
+      <a href="https://github.com/Rodrilundain" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/rodrigo-ilundain" target="_blank" rel="noopener">LinkedIn</a>
+      <button class="themebtn" id="themeBtn" type="button" aria-label="Cambiar entre claro y oscuro" title="Claro / Oscuro">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="kicker"><span class="pulse"></span>Deck de comandos de IA</span>
+    <h1 class="title">Un comando.<br>El resultado, al toque.</h1>
+    <p class="lede"><span class="num" id="total">591</span> comandos listos para copiar: convertí una foto de producto en imagen de alto impacto y disparás contenido, copy, guiones, ventas y automatización sin pensar el prompt desde cero.</p>
+    <div class="searchbox">
+      <span class="slash">/</span>
+      <input id="q" type="text" placeholder="Buscá un comando o lo que querés lograr…" autocomplete="off" spellcheck="false">
+      <span class="kbdhint"><span class="kbd">/</span> para buscar</span>
+    </div>
+    <div class="count" id="count"></div>
+
+    <details class="setup">
+      <summary><span class="tag">1×</span> Configurá el chat una sola vez <span class="arw">›</span></summary>
+      <div class="setup-body">
+        <p>Abrí un chat nuevo (ChatGPT, Gemini o Claude), pegá este mensaje base y debajo la lista de comandos de la categoría que vayas a usar esa sesión. Después: solo comando + imagen. ¿Cambiás de categoría? Chat nuevo.</p>
+        <div class="prompt" id="setupPrompt"><button class="copyp" onclick="copySetup()">Copiar</button>Actuá como director de arte y asistente de automatización. Te voy a pasar una lista de comandos personalizados con su función. Cuando escriba uno de estos comandos (y suba una imagen si el comando lo requiere), aplicá exactamente la instrucción correspondiente y generá el resultado de inmediato — sin explicaciones largas, sin preguntas, solo el resultado.
+
+Mis comandos:
+[pegá acá la lista de comandos + "qué hace" de la categoría que vas a usar]
+
+A partir de ahora, cada vez que te escriba uno de estos comandos, devolvé el resultado directamente.</div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<div class="filterbar">
+  <div class="wrap" id="filters"></div>
+</div>
+
+<main class="wrap">
+  <div id="list"></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="frow">
+      <div>
+        <div class="fname">Rodrigo Ilundain</div>
+        <div class="ftag">Automatizaciones, data e IA aplicada — Montevideo, Uruguay</div>
+      </div>
+      <nav class="flinks">
+        <a href="https://rodrilundain.github.io/Rodrilundain/" target="_blank" rel="noopener">Portfolio</a>
+        <a href="https://github.com/Rodrilundain" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/rodrigo-ilundain" target="_blank" rel="noopener">LinkedIn</a>
+      </nav>
+    </div>
+    <div class="src">Deck compilado y curado por Rodrigo Ilundain a partir de material de referencia propio. Uso personal.</div>
+  </div>
+</footer>
+
+<div id="toast"></div>
+
+
+
+<script>
+const COMMANDS = [
+{c:"/internalmap",d:"Expone los componentes internos principales en su ubicación real.",cat:"m10k",grp:"Estructura e ingeniería"},
+{c:"/shelloff",d:"Elimina la carcasa exterior sin desarmar el resto.",cat:"m10k",grp:"Estructura e ingeniería"},
+{c:"/halfsection",d:"Muestra una mitad normal y la otra cortada.",cat:"m10k",grp:"Estructura e ingeniería"},
+{c:"/crosssection",d:"Vista limpia de corte transversal de la construcción interna.",cat:"m10k",grp:"Estructura e ingeniería"},
+{c:"/componenttree",d:"Mapea objeto → ensambles → subensambles → componentes.",cat:"m10k",grp:"Estructura e ingeniería"},
+{c:"/assemblyorder",d:"Ordena las partes según cómo se ensamblan.",cat:"m10k",grp:"Estructura e ingeniería"},
+{c:"/fastenermap",d:"Resalta tornillos, tuercas, clips, soldaduras y adhesivos.",cat:"m10k",grp:"Estructura e ingeniería"},
+{c:"/materialmap",d:"Etiqueta acero, aluminio, plástico, goma, vidrio y más.",cat:"m10k",grp:"Estructura e ingeniería"},
+{c:"/stressmap",d:"Visualiza zonas de estrés estructural alto, medio y bajo.",cat:"m10k",grp:"Estructura e ingeniería"},
+{c:"/loadpath",d:"Muestra cómo viajan las fuerzas por el objeto.",cat:"m10k",grp:"Estructura e ingeniería"},
+{c:"/mechanismflow",d:"Usa flechas para mostrar cómo se transfiere el movimiento.",cat:"m10k",grp:"Cómo funciona"},
+{c:"/powerflow",d:"Muestra el camino de la energía desde la fuente hasta la salida.",cat:"m10k",grp:"Cómo funciona"},
+{c:"/signalflow",d:"Mapea sensor → procesador → actuador o salida.",cat:"m10k",grp:"Cómo funciona"},
+{c:"/fluidflow",d:"Muestra combustible, aceite, agua u otros fluidos en movimiento.",cat:"m10k",grp:"Cómo funciona"},
+{c:"/airflow",d:"Visualiza admisión, escape, ventilación o aerodinámica.",cat:"m10k",grp:"Cómo funciona"},
+{c:"/motionpath",d:"Muestra rangos de movimiento, rotaciones y trayectorias.",cat:"m10k",grp:"Cómo funciona"},
+{c:"/cycleview",d:"Divide un ciclo completo de operación en etapas.",cat:"m10k",grp:"Cómo funciona"},
+{c:"/causeeffect",d:"Conecta cada acción con su efecto resultante.",cat:"m10k",grp:"Cómo funciona"},
+{c:"/rawtofinal",d:"Muestra materia prima → partes intermedias → producto final.",cat:"m10k",grp:"Fabricación"},
+{c:"/manufacturingsteps",d:"Muestra un proceso de fábrica simplificado en 4-6 etapas.",cat:"m10k",grp:"Fabricación"},
+{c:"/toolingview",d:"Muestra moldes, matrices y herramientas de fabricación.",cat:"m10k",grp:"Fabricación"},
+{c:"/moldview",d:"Muestra cómo el objeto se ubica dentro de su molde.",cat:"m10k",grp:"Fabricación"},
+{c:"/qualitycheck",d:"Muestra puntos de inspección visual y defectos comunes.",cat:"m10k",grp:"Fabricación"},
+{c:"/supplychain",d:"Mapea materiales → fábricas → ensamble → logística → cliente.",cat:"m10k",grp:"Fabricación"},
+{c:"/scalecompare",d:"Ubica el objeto junto a algo familiar para dar escala.",cat:"m10k",grp:"Aprendizaje visual y comparación"},
+{c:"/sizelevels",d:"Muestra objeto → componente → microscópico → molecular.",cat:"m10k",grp:"Aprendizaje visual y comparación"},
+{c:"/thenandnow",d:"Compara una generación anterior con el diseño actual.",cat:"m10k",grp:"Aprendizaje visual y comparación"},
+{c:"/goodvsbad",d:"Compara una construcción correcta con un ejemplo defectuoso.",cat:"m10k",grp:"Aprendizaje visual y comparación"},
+{c:"/failuremode",d:"Muestra dónde y cómo suele fallar el objeto.",cat:"m10k",grp:"Aprendizaje visual y comparación"},
+{c:"/designlogic",d:"Etiqueta funciones y explica por qué existe cada decisión de diseño.",cat:"m10k",grp:"Aprendizaje visual y comparación"},
+{c:"/360view",d:"Muestra el sujeto desde todos los ángulos.",cat:"m10k",grp:"Revelados visuales"},
+{c:"/anatomy",d:"Etiqueta sistemas corporales o regiones estructurales.",cat:"m10k",grp:"Revelados visuales"},
+{c:"/cutaway",d:"Quita parte del exterior para revelar el interior.",cat:"m10k",grp:"Revelados visuales"},
+{c:"/layers",d:"Separa el sujeto en capas apiladas.",cat:"m10k",grp:"Revelados visuales"},
+{c:"/xray",d:"Revela estructuras internas a través de la superficie.",cat:"m10k",grp:"Revelados visuales"},
+{c:"/explodedview",d:"Separa los componentes manteniendo sus posiciones claras.",cat:"m10k",grp:"Revelados visuales"},
+{c:"/insideview",d:"Muestra el interior sin destruir del todo el exterior.",cat:"m10k",grp:"Revelados visuales"},
+{c:"/hiddenparts",d:"Revela componentes o estructuras ocultas.",cat:"m10k",grp:"Revelados visuales"},
+{c:"/seethrough",d:"Vuelve transparentes las superficies seleccionadas.",cat:"m10k",grp:"Revelados visuales"},
+{c:"/ghosted",d:"Muestra estructuras ocultas como contornos tenues.",cat:"m10k",grp:"Revelados visuales"},
+{c:"/peelback",d:"Levanta la superficie exterior como si fuera una solapa.",cat:"m10k",grp:"Revelados visuales"},
+{c:"/blueprint",d:"Crea un plano técnico en línea azul.",cat:"m10k",grp:"Dibujo técnico"},
+{c:"/schematic",d:"Simplifica el sujeto en un diagrama funcional.",cat:"m10k",grp:"Dibujo técnico"},
+{c:"/technicaldrawing",d:"Muestra vistas frontal, lateral y superior precisas.",cat:"m10k",grp:"Dibujo técnico"},
+{c:"/wireframe",d:"Muestra el armazón geométrico bajo la superficie.",cat:"m10k",grp:"Dibujo técnico"},
+{c:"/isometric",d:"Crea una vista angulada estilo ingeniería.",cat:"m10k",grp:"Dibujo técnico"},
+{c:"/cadview",d:"Presenta el sujeto como un modelo CAD.",cat:"m10k",grp:"Dibujo técnico"},
+{c:"/dimensionview",d:"Agrega medidas claras alrededor del objeto.",cat:"m10k",grp:"Dibujo técnico"},
+{c:"/dimensionlines",d:"Dibuja líneas técnicas de medición entre puntos.",cat:"m10k",grp:"Dibujo técnico"},
+{c:"/scalegrid",d:"Usa una grilla para comunicar tamaño y proporción.",cat:"m10k",grp:"Dibujo técnico"},
+{c:"/vanishingpoint",d:"Muestra la construcción de las líneas de perspectiva.",cat:"m10k",grp:"Dibujo técnico"},
+{c:"/contourmap",d:"Muestra altura, profundidad o nivel con líneas.",cat:"m10k",grp:"Dibujo técnico"},
+{c:"/howitworks",d:"Explica visualmente la función básica.",cat:"m10k",grp:"Mecanismo y función"},
+{c:"/mechanism",d:"Se enfoca en engranajes, bisagras o partes móviles.",cat:"m10k",grp:"Mecanismo y función"},
+{c:"/energyflow",d:"Muestra cómo se mueve la energía por el sujeto.",cat:"m10k",grp:"Mecanismo y función"},
+{c:"/motionflow",d:"Muestra cómo se mueven las partes durante la operación.",cat:"m10k",grp:"Mecanismo y función"},
+{c:"/inputoutput",d:"Muestra qué entra al sistema y qué sale.",cat:"m10k",grp:"Mecanismo y función"},
+{c:"/forceanalysis",d:"Muestra presión, fuerza, peso o estrés.",cat:"m10k",grp:"Mecanismo y función"},
+{c:"/flowdiagram",d:"Muestra el movimiento de aire, agua, sangre o datos.",cat:"m10k",grp:"Mecanismo y función"},
+{c:"/rangeofmotion",d:"Muestra cuánto pueden moverse las articulaciones o partes.",cat:"m10k",grp:"Mecanismo y función"},
+{c:"/controlmap",d:"Conecta cada control con su función.",cat:"m10k",grp:"Mecanismo y función"},
+{c:"/buttonmap",d:"Etiqueta botones y explica qué hacen.",cat:"m10k",grp:"Mecanismo y función"},
+{c:"/portmap",d:"Identifica puertos, conectores y puntos de conexión.",cat:"m10k",grp:"Mecanismo y función"},
+{c:"/assembly",d:"Muestra cómo partes separadas se vuelven un solo objeto.",cat:"m10k",grp:"Proceso e instrucción"},
+{c:"/assemblysequence",d:"Muestra el ensamble en etapas numeradas.",cat:"m10k",grp:"Proceso e instrucción"},
+{c:"/disassembly",d:"Muestra cómo desarmar el sujeto.",cat:"m10k",grp:"Proceso e instrucción"},
+{c:"/installation",d:"Muestra dónde y cómo instalar el objeto.",cat:"m10k",grp:"Proceso e instrucción"},
+{c:"/stepsequence",d:"Presenta una tarea cuadro por cuadro.",cat:"m10k",grp:"Proceso e instrucción"},
+{c:"/instructioncard",d:"Crea una tarjeta de instrucción visual compacta.",cat:"m10k",grp:"Proceso e instrucción"},
+{c:"/manualpage",d:"Convierte el sujeto en una página estilo manual.",cat:"m10k",grp:"Proceso e instrucción"},
+{c:"/quickreference",d:"Crea una guía visual rápida de referencia.",cat:"m10k",grp:"Proceso e instrucción"},
+{c:"/checklist",d:"Crea un checklist de acciones o partes.",cat:"m10k",grp:"Proceso e instrucción"},
+{c:"/decisiontree",d:"Muestra qué hacer en cada punto de decisión.",cat:"m10k",grp:"Proceso e instrucción"},
+{c:"/repairguide",d:"Muestra el problema y el camino de reparación.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/problemresolution",d:"Compara problema, diagnóstico y solución.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/maintenanceguide",d:"Muestra las tareas de mantenimiento regular.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/cleaningpoints",d:"Marca dónde y cómo limpiar.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/filterreplacement",d:"Explica cómo se retira y cambia un filtro.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/lubricationpoints",d:"Marca bisagras, engranajes o partes que necesitan lubricación.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/inspectionpoints",d:"Resalta las áreas que deben revisarse.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/faultfinder",d:"Resalta las fuentes probables de falla.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/repairroute",d:"Muestra la ruta más segura para una reparación.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/replaceablepart",d:"Identifica el componente que puede reemplazarse.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/hazardmap",d:"Resalta zonas o acciones peligrosas.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/safezones",d:"Muestra dónde es seguro tocar o trabajar.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/warningpoints",d:"Marca advertencias directamente sobre la imagen.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/protectivegear",d:"Muestra el equipo de seguridad necesario.",cat:"m10k",grp:"Reparación, mantenimiento y seguridad"},
+{c:"/controlpanel",d:"Explica el panel de control o la interfaz.",cat:"m10k",grp:"Controles, estado y energía"},
+{c:"/screenlabels",d:"Etiqueta los elementos importantes de la pantalla.",cat:"m10k",grp:"Controles, estado y energía"},
+{c:"/indicatorlights",d:"Explica luces, símbolos y estados indicadores.",cat:"m10k",grp:"Controles, estado y energía"},
+{c:"/modechart",d:"Compara los distintos modos de operación.",cat:"m10k",grp:"Controles, estado y energía"},
+{c:"/statuscomparison",d:"Muestra estados inactivo, activo, en pausa y finalizado.",cat:"m10k",grp:"Controles, estado y energía"},
+{c:"/onandoff",d:"Compara el estado encendido y apagado.",cat:"m10k",grp:"Controles, estado y energía"},
+{c:"/errorstates",d:"Muestra condiciones de error comunes.",cat:"m10k",grp:"Controles, estado y energía"},
+{c:"/errorcodes",d:"Explica códigos de error o símbolos de advertencia visibles.",cat:"m10k",grp:"Controles, estado y energía"},
+{c:"/powerroute",d:"Muestra por dónde entra y viaja la energía.",cat:"m10k",grp:"Controles, estado y energía"},
+{c:"/chargingports",d:"Identifica conexiones de carga y su dirección.",cat:"m10k",grp:"Controles, estado y energía"},
+{c:"/batteryaccess",d:"Muestra cómo llegar al compartimento de la batería.",cat:"m10k",grp:"Controles, estado y energía"},
+{c:"/batteryplacement",d:"Muestra la posición y orientación de la batería.",cat:"m10k",grp:"Controles, estado y energía"},
+{c:"/portlabels",d:"Etiqueta cada puerto de entrada y salida.",cat:"m10k",grp:"Conectividad y compatibilidad"},
+{c:"/cablerouting",d:"Muestra los caminos de cable más prolijos.",cat:"m10k",grp:"Conectividad y compatibilidad"},
+{c:"/wiringpath",d:"Visualiza los cables eléctricos y sus destinos.",cat:"m10k",grp:"Conectividad y compatibilidad"},
+{c:"/connectionmap",d:"Mapea cómo se conectan las partes entre sí.",cat:"m10k",grp:"Conectividad y compatibilidad"},
+{c:"/compatibilitycheck",d:"Muestra qué partes o dispositivos funcionan juntos.",cat:"m10k",grp:"Conectividad y compatibilidad"},
+{c:"/accessoryfit",d:"Demuestra cómo se conecta un accesorio.",cat:"m10k",grp:"Conectividad y compatibilidad"},
+{c:"/adaptermatch",d:"Muestra el adaptador o conector correcto.",cat:"m10k",grp:"Conectividad y compatibilidad"},
+{c:"/mountingoptions",d:"Compara los métodos de montaje disponibles.",cat:"m10k",grp:"Conectividad y compatibilidad"},
+{c:"/cableorganization",d:"Ordena los cables en un diseño limpio y comprensible.",cat:"m10k",grp:"Conectividad y compatibilidad"},
+{c:"/storagefit",d:"Muestra cómo entra el objeto en su almacenamiento.",cat:"m10k",grp:"Conectividad y compatibilidad"},
+{c:"/carrycase",d:"Coloca el objeto en un estuche de viaje práctico.",cat:"m10k",grp:"Conectividad y compatibilidad"},
+{c:"/spaceplan",d:"Optimiza el espacio disponible alrededor del sujeto.",cat:"m10k",grp:"Conectividad y compatibilidad"},
+{c:"/scalecomparison",d:"Compara tamaño con una mano, persona u objeto.",cat:"m10k",grp:"Escala, comparación y ubicación"},
+{c:"/sizecomparison",d:"Coloca varios objetos uno junto a otro por tamaño.",cat:"m10k",grp:"Escala, comparación y ubicación"},
+{c:"/proportionmap",d:"Muestra proporciones entre dimensiones importantes.",cat:"m10k",grp:"Escala, comparación y ubicación"},
+{c:"/fitcheck",d:"Muestra si dos partes u objetos encajan.",cat:"m10k",grp:"Escala, comparación y ubicación"},
+{c:"/clearancecheck",d:"Muestra el espacio libre requerido alrededor del objeto.",cat:"m10k",grp:"Escala, comparación y ubicación"},
+{c:"/sidebyside",d:"Compara dos versiones en vistas equivalentes.",cat:"m10k",grp:"Escala, comparación y ubicación"},
+{c:"/featurematrix",d:"Compara funciones en una grilla visual.",cat:"m10k",grp:"Escala, comparación y ubicación"},
+{c:"/proscons",d:"Muestra ventajas y desventajas con claridad.",cat:"m10k",grp:"Escala, comparación y ubicación"},
+{c:"/whichone",d:"Presenta una recomendación visual entre opciones.",cat:"m10k",grp:"Escala, comparación y ubicación"},
+{c:"/beforeafter",d:"Muestra un cambio, reparación o transformación.",cat:"m10k",grp:"Escala, comparación y ubicación"},
+{c:"/oldnew",d:"Compara una versión anterior con una nueva.",cat:"m10k",grp:"Escala, comparación y ubicación"},
+{c:"/roomplacement",d:"Muestra dónde encaja el objeto en un ambiente.",cat:"m10k",grp:"Escala, comparación y ubicación"},
+{c:"/skeletonview",d:"Muestra los huesos o el armazón de soporte.",cat:"m10k",grp:"Anatomía humana y animal"},
+{c:"/cellularview",d:"Hace zoom hacia células o estructura microscópica.",cat:"m10k",grp:"Anatomía humana y animal"},
+{c:"/molecularview",d:"Muestra el sujeto a escala molecular.",cat:"m10k",grp:"Anatomía humana y animal"},
+{c:"/musclemap",d:"Etiqueta los músculos principales y su posición.",cat:"m10k",grp:"Anatomía humana y animal"},
+{c:"/organmap",d:"Etiqueta órganos internos o sistemas internos.",cat:"m10k",grp:"Anatomía humana y animal"},
+{c:"/posturemap",d:"Explica postura, equilibrio y alineación corporal.",cat:"m10k",grp:"Anatomía humana y animal"},
+{c:"/gestureguide",d:"Muestra un gesto o posición corporal con claridad.",cat:"m10k",grp:"Anatomía humana y animal"},
+{c:"/behaviorsequence",d:"Muestra acciones o comportamiento en orden.",cat:"m10k",grp:"Anatomía humana y animal"},
+{c:"/habitatview",d:"Ubica a una persona o animal en su entorno.",cat:"m10k",grp:"Anatomía humana y animal"},
+{c:"/interactionmap",d:"Muestra la relación entre el sujeto y su entorno.",cat:"m10k",grp:"Anatomía humana y animal"},
+{c:"/firstperson",d:"Muestra la escena desde la perspectiva del sujeto.",cat:"m10k",grp:"Anatomía humana y animal"},
+{c:"/handsinframe",d:"Muestra manos usando o demostrando el objeto.",cat:"m10k",grp:"Anatomía humana y animal"},
+{c:"/cinematic",d:"Crea una composición dramática de fotograma de cine.",cat:"m10k",grp:"Cámara y perspectiva"},
+{c:"/filmnoir",d:"Usa un look de alto contraste en blanco y negro.",cat:"m10k",grp:"Cámara y perspectiva"},
+{c:"/vintagefilm",d:"Crea una fotografía analógica envejecida.",cat:"m10k",grp:"Cámara y perspectiva"},
+{c:"/polaroid",d:"Usa la estética de una cámara instantánea.",cat:"m10k",grp:"Cámara y perspectiva"},
+{c:"/35mm",d:"Crea una fotografía clásica de 35mm.",cat:"m10k",grp:"Cámara y perspectiva"},
+{c:"/fisheye",d:"Usa una perspectiva extrema de gran angular.",cat:"m10k",grp:"Cámara y perspectiva"},
+{c:"/tiltshift",d:"Hace que la escena parezca miniatura.",cat:"m10k",grp:"Cámara y perspectiva"},
+{c:"/overhead",d:"Muestra el sujeto directamente desde arriba.",cat:"m10k",grp:"Cámara y perspectiva"},
+{c:"/lowangle",d:"Hace que el sujeto se vea poderoso desde abajo.",cat:"m10k",grp:"Cámara y perspectiva"},
+{c:"/topdown",d:"Crea una vista aérea plana.",cat:"m10k",grp:"Cámara y perspectiva"},
+{c:"/panorama",d:"Expande la escena a una vista panorámica.",cat:"m10k",grp:"Cámara y perspectiva"},
+{c:"/wormseye",d:"Usa una perspectiva extrema a nivel del suelo.",cat:"m10k",grp:"Cámara y perspectiva"},
+{c:"/goldenhour",d:"Usa luz cálida de amanecer o atardecer.",cat:"m10k",grp:"Luz y óptica"},
+{c:"/bluehour",d:"Usa una iluminación fría de crepúsculo.",cat:"m10k",grp:"Luz y óptica"},
+{c:"/neonlight",d:"Usa iluminación neón colorida.",cat:"m10k",grp:"Luz y óptica"},
+{c:"/rimlight",d:"Crea un contorno brillante alrededor del sujeto.",cat:"m10k",grp:"Luz y óptica"},
+{c:"/chiaroscuro",d:"Usa fuerte contraste de luz y sombra.",cat:"m10k",grp:"Luz y óptica"},
+{c:"/volumetric",d:"Muestra rayos de luz visibles en el aire.",cat:"m10k",grp:"Luz y óptica"},
+{c:"/softbox",d:"Usa una iluminación de estudio limpia y pareja.",cat:"m10k",grp:"Luz y óptica"},
+{c:"/hardflash",d:"Usa un flash directo y duro.",cat:"m10k",grp:"Luz y óptica"},
+{c:"/silhouette",d:"Muestra el sujeto como un contorno oscuro.",cat:"m10k",grp:"Luz y óptica"},
+{c:"/bokeh",d:"Convierte las luces del fondo en círculos suaves.",cat:"m10k",grp:"Luz y óptica"},
+{c:"/lensflare",d:"Agrega destellos de cámara brillantes.",cat:"m10k",grp:"Luz y óptica"},
+{c:"/prismatic",d:"Crea refracción arcoíris a través de luz o vidrio.",cat:"m10k",grp:"Luz y óptica"},
+{c:"/oilpaint",d:"Usa una textura rica de pintura al óleo en capas.",cat:"m10k",grp:"Estilos tradicionales y artesanales"},
+{c:"/watercolor",d:"Usa lavados suaves y transparentes de acuarela.",cat:"m10k",grp:"Estilos tradicionales y artesanales"},
+{c:"/gouache",d:"Usa colores mate y audaces de gouache.",cat:"m10k",grp:"Estilos tradicionales y artesanales"},
+{c:"/inkwash",d:"Usa pinceladas expresivas y tonos de tinta.",cat:"m10k",grp:"Estilos tradicionales y artesanales"},
+{c:"/linocut",d:"Usa formas talladas de grabado.",cat:"m10k",grp:"Estilos tradicionales y artesanales"},
+{c:"/woodcut",d:"Usa una textura grabada vintage.",cat:"m10k",grp:"Estilos tradicionales y artesanales"},
+{c:"/stainedglass",d:"Construye el sujeto con paneles de vidrio de color.",cat:"m10k",grp:"Estilos tradicionales y artesanales"},
+{c:"/paperquilling",d:"Construye la imagen con tiras de papel enrolladas.",cat:"m10k",grp:"Estilos tradicionales y artesanales"},
+{c:"/claymation",d:"Usa un estilo animado de plastilina hecho a mano.",cat:"m10k",grp:"Estilos tradicionales y artesanales"},
+{c:"/clayrender",d:"Hace que el sujeto parezca un modelo de arcilla suave.",cat:"m10k",grp:"Estilos tradicionales y artesanales"},
+{c:"/papercraft",d:"Convierte el sujeto en un modelo construido en papel.",cat:"m10k",grp:"Estilos tradicionales y artesanales"},
+{c:"/origami",d:"Usa geometría de papel plegado.",cat:"m10k",grp:"Estilos tradicionales y artesanales"},
+{c:"/poster",d:"Crea un póster gráfico audaz.",cat:"m10k",grp:"Diseño y editorial"},
+{c:"/editorial",d:"Usa un diseño editorial pulido de revista.",cat:"m10k",grp:"Diseño y editorial"},
+{c:"/magazinecover",d:"Convierte el sujeto en un diseño de portada.",cat:"m10k",grp:"Diseño y editorial"},
+{c:"/albumcover",d:"Crea arte musical alrededor del sujeto.",cat:"m10k",grp:"Diseño y editorial"},
+{c:"/comicpanel",d:"Usa un cuadro y composición estilo cómic.",cat:"m10k",grp:"Diseño y editorial"},
+{c:"/manga",d:"Usa un estilo de ilustración inspirado en manga.",cat:"m10k",grp:"Diseño y editorial"},
+{c:"/pixelart",d:"Convierte el sujeto en gráficos pixelados.",cat:"m10k",grp:"Diseño y editorial"},
+{c:"/infographic",d:"Explica el sujeto con bloques de información visual.",cat:"m10k",grp:"Diseño y editorial"},
+{c:"/sticker",d:"Crea una ilustración limpia estilo sticker.",cat:"m10k",grp:"Diseño y editorial"},
+{c:"/packaging",d:"Coloca el sujeto en un empaque de producto.",cat:"m10k",grp:"Diseño y editorial"},
+{c:"/labeldesign",d:"Crea una etiqueta con jerarquía clara.",cat:"m10k",grp:"Diseño y editorial"},
+{c:"/educationalposter",d:"Combina hechos, etiquetas y diagramas.",cat:"m10k",grp:"Diseño y editorial"},
+{c:"/glitch",d:"Agrega distorsión digital controlada.",cat:"m10k",grp:"Vistas digitales y de datos"},
+{c:"/hud",d:"Agrega una pantalla futurista de información.",cat:"m10k",grp:"Vistas digitales y de datos"},
+{c:"/datastream",d:"Muestra información fluyendo por la escena.",cat:"m10k",grp:"Vistas digitales y de datos"},
+{c:"/coderain",d:"Usa código cayendo como ambientación.",cat:"m10k",grp:"Vistas digitales y de datos"},
+{c:"/signalnoise",d:"Crea interferencia de televisión o transmisión.",cat:"m10k",grp:"Vistas digitales y de datos"},
+{c:"/surveillance",d:"Usa un punto de vista de cámara de seguridad.",cat:"m10k",grp:"Vistas digitales y de datos"},
+{c:"/scanlines",d:"Agrega un patrón de escaneo digital.",cat:"m10k",grp:"Vistas digitales y de datos"},
+{c:"/falsecolor",d:"Usa mapeo científico de falso color.",cat:"m10k",grp:"Vistas digitales y de datos"},
+{c:"/depthmap",d:"Usa color para mostrar distancia y profundidad.",cat:"m10k",grp:"Vistas digitales y de datos"},
+{c:"/heatmap",d:"Resalta intensidad o actividad con color.",cat:"m10k",grp:"Vistas digitales y de datos"},
+{c:"/gridoverlay",d:"Coloca una grilla técnica sobre la imagen.",cat:"m10k",grp:"Vistas digitales y de datos"},
+{c:"/mesh",d:"Muestra la estructura de malla 3D.",cat:"m10k",grp:"Vistas digitales y de datos"},
+{c:"/cyberpunk",d:"Ubica el sujeto en un futuro neón.",cat:"m10k",grp:"Entornos y worldbuilding"},
+{c:"/steampunk",d:"Usa maquinaria victoriana y detalles de bronce.",cat:"m10k",grp:"Entornos y worldbuilding"},
+{c:"/solarpunk",d:"Imagina un futuro verde y optimista.",cat:"m10k",grp:"Entornos y worldbuilding"},
+{c:"/atompunk",d:"Usa el futurismo nuclear de los años 50.",cat:"m10k",grp:"Entornos y worldbuilding"},
+{c:"/biopunk",d:"Combina biología y tecnología avanzada.",cat:"m10k",grp:"Entornos y worldbuilding"},
+{c:"/fantasyrealm",d:"Ubica el sujeto en un mundo mágico.",cat:"m10k",grp:"Entornos y worldbuilding"},
+{c:"/mythic",d:"Le da al sujeto una ambientación legendaria y épica.",cat:"m10k",grp:"Entornos y worldbuilding"},
+{c:"/western",d:"Ubica el sujeto en un escenario de frontera.",cat:"m10k",grp:"Entornos y worldbuilding"},
+{c:"/spaceopera",d:"Crea un entorno interestelar grandioso.",cat:"m10k",grp:"Entornos y worldbuilding"},
+{c:"/retrofuture",d:"Muestra una visión anticuada del futuro.",cat:"m10k",grp:"Entornos y worldbuilding"},
+{c:"/brutalist",d:"Usa concreto crudo y formas monumentales.",cat:"m10k",grp:"Entornos y worldbuilding"},
+{c:"/gothicrevival",d:"Usa arquitectura histórica dramática.",cat:"m10k",grp:"Entornos y worldbuilding"},
+{c:"/chrome",d:"Da a las superficies un acabado metálico reflectante.",cat:"m10k",grp:"Material y superficie"},
+{c:"/glass",d:"Vuelve el sujeto de vidrio transparente.",cat:"m10k",grp:"Material y superficie"},
+{c:"/holographic",d:"Usa un acabado holograma arcoíris.",cat:"m10k",grp:"Material y superficie"},
+{c:"/lowpoly",d:"Construye el sujeto con polígonos facetados.",cat:"m10k",grp:"Material y superficie"},
+{c:"/voxel",d:"Construye el sujeto con píxeles tipo bloque.",cat:"m10k",grp:"Material y superficie"},
+{c:"/emboss",d:"Eleva elementos por encima de una superficie.",cat:"m10k",grp:"Material y superficie"},
+{c:"/deboss",d:"Hunde elementos dentro de una superficie.",cat:"m10k",grp:"Material y superficie"},
+{c:"/foilstamp",d:"Agrega impresión metálica de foil.",cat:"m10k",grp:"Material y superficie"},
+{c:"/diecut",d:"Crea un diseño de corte limpio.",cat:"m10k",grp:"Material y superficie"},
+{c:"/stencil",d:"Convierte el sujeto en formas de plantilla.",cat:"m10k",grp:"Material y superficie"},
+{c:"/halftone",d:"Usa sombreado de puntos estilo cómic.",cat:"m10k",grp:"Material y superficie"},
+{c:"/duotone",d:"Limita el diseño a dos colores.",cat:"m10k",grp:"Material y superficie"},
+{c:"/longexposure",d:"Muestra estelas de luz y movimiento suave.",cat:"m10k",grp:"Movimiento, tiempo y cambio"},
+{c:"/lightpainting",d:"Dibuja trazos brillantes a través de la escena.",cat:"m10k",grp:"Movimiento, tiempo y cambio"},
+{c:"/motionblur",d:"Enfatiza el movimiento con desenfoque direccional.",cat:"m10k",grp:"Movimiento, tiempo y cambio"},
+{c:"/timelapse",d:"Comprime un proceso largo en una sola imagen.",cat:"m10k",grp:"Movimiento, tiempo y cambio"},
+{c:"/slowmotion",d:"Hace que el movimiento se vea suspendido.",cat:"m10k",grp:"Movimiento, tiempo y cambio"},
+{c:"/stopmotion",d:"Usa una apariencia artesanal cuadro por cuadro.",cat:"m10k",grp:"Movimiento, tiempo y cambio"},
+{c:"/motiontrail",d:"Deja estelas detrás de los elementos en movimiento.",cat:"m10k",grp:"Movimiento, tiempo y cambio"},
+{c:"/speedlines",d:"Agrega estelas gráficas de acción.",cat:"m10k",grp:"Movimiento, tiempo y cambio"},
+{c:"/freezeframe",d:"Captura un instante dramático en movimiento.",cat:"m10k",grp:"Movimiento, tiempo y cambio"},
+{c:"/timeline",d:"Muestra el desarrollo en varias etapas.",cat:"m10k",grp:"Movimiento, tiempo y cambio"},
+{c:"/transformation",d:"Muestra una forma convirtiéndose en otra.",cat:"m10k",grp:"Movimiento, tiempo y cambio"},
+{c:"/lifecycle",d:"Muestra creación, uso, envejecimiento y final de vida.",cat:"m10k",grp:"Movimiento, tiempo y cambio"},
+{c:"/homeuse",d:"Muestra el objeto siendo usado en casa.",cat:"m10k",grp:"Contexto cotidiano y uso"},
+{c:"/deskuse",d:"Muestra una instalación práctica de escritorio.",cat:"m10k",grp:"Contexto cotidiano y uso"},
+{c:"/kitchenuse",d:"Muestra una aplicación realista de cocina.",cat:"m10k",grp:"Contexto cotidiano y uso"},
+{c:"/traveluse",d:"Muestra cómo funciona el objeto viajando.",cat:"m10k",grp:"Contexto cotidiano y uso"},
+{c:"/unboxing",d:"Muestra el producto y el contenido siendo desempacado.",cat:"m10k",grp:"Contexto cotidiano y uso"},
+{c:"/inhandscale",d:"Muestra el tamaño real en la mano de una persona.",cat:"m10k",grp:"Contexto cotidiano y uso"},
+{c:"/beginnerfriendly",d:"Hace la explicación simple y accesible.",cat:"m10k",grp:"Contexto cotidiano y uso"},
+{c:"/lefthanded",d:"Muestra el objeto operado con la mano izquierda.",cat:"m10k",grp:"Contexto cotidiano y uso"},
+{c:"/storageplan",d:"Muestra un ordenamiento práctico de almacenamiento.",cat:"m10k",grp:"Contexto cotidiano y uso"},
+{c:"/cablemanagement",d:"Organiza los cables de forma prolija alrededor del objeto.",cat:"m10k",grp:"Contexto cotidiano y uso"},
+{c:"/drawerorganization",d:"Ordena objetos pequeños dentro de un cajón.",cat:"m10k",grp:"Contexto cotidiano y uso"},
+{c:"/accessorylayout",d:"Ordena el objeto principal con sus accesorios.",cat:"m10k",grp:"Contexto cotidiano y uso"},
+{c:"/stickynotes",d:"Agrega etiquetas de notas adhesivas coloridas.",cat:"m10k",grp:"Anotación y explicación"},
+{c:"/postitwall",d:"Crea una pared de notas alrededor del sujeto.",cat:"m10k",grp:"Anotación y explicación"},
+{c:"/callouts",d:"Agrega líneas que señalan detalles importantes.",cat:"m10k",grp:"Anotación y explicación"},
+{c:"/arrows",d:"Usa flechas para mostrar dirección o movimiento.",cat:"m10k",grp:"Anotación y explicación"},
+{c:"/highlighter",d:"Resalta las áreas más importantes.",cat:"m10k",grp:"Anotación y explicación"},
+{c:"/redpen",d:"Agrega marcas de corrección y notas de experto.",cat:"m10k",grp:"Anotación y explicación"},
+{c:"/markerwriting",d:"Usa anotaciones audaces estilo marcador.",cat:"m10k",grp:"Anotación y explicación"},
+{c:"/whiteboard",d:"Convierte la imagen en una explicación de pizarrón.",cat:"m10k",grp:"Anotación y explicación"},
+{c:"/annotatedphoto",d:"Agrega etiquetas limpias directo a la foto.",cat:"m10k",grp:"Anotación y explicación"},
+{c:"/labelmaker",d:"Usa etiquetas prolijas impresas para cada parte.",cat:"m10k",grp:"Anotación y explicación"},
+{c:"/captioncard",d:"Agrega epígrafes explicativos cortos junto al sujeto.",cat:"m10k",grp:"Anotación y explicación"},
+{c:"/legendkey",d:"Crea una clave visual para colores y símbolos.",cat:"m10k",grp:"Anotación y explicación"},
+{c:"/underwater",d:"Ubica el sujeto bajo la superficie del agua.",cat:"m10k",grp:"Entorno, condición e inspección"},
+{c:"/watersplash",d:"Congela un chapoteo alrededor del sujeto.",cat:"m10k",grp:"Entorno, condición e inspección"},
+{c:"/dropletmacro",d:"Muestra gotas suspendidas en detalle cercano.",cat:"m10k",grp:"Entorno, condición e inspección"},
+{c:"/inkcloud",d:"Muestra tinta esparciéndose en un líquido.",cat:"m10k",grp:"Entorno, condición e inspección"},
+{c:"/fogbank",d:"Rodea el sujeto con niebla espesa.",cat:"m10k",grp:"Entorno, condición e inspección"},
+{c:"/rainstreaks",d:"Muestra la lluvia cayendo a través de la vista.",cat:"m10k",grp:"Entorno, condición e inspección"},
+{c:"/timeworn",d:"Hace que el sujeto se vea envejecido y muy usado.",cat:"m10k",grp:"Entorno, condición e inspección"},
+{c:"/archaeological",d:"Presenta el sujeto como un hallazgo arqueológico.",cat:"m10k",grp:"Entorno, condición e inspección"},
+{c:"/damagecheck",d:"Resalta rayones, grietas, abolladuras o roturas.",cat:"m10k",grp:"Entorno, condición e inspección"},
+{c:"/wearpoints",d:"Muestra las áreas con más probabilidad de desgaste.",cat:"m10k",grp:"Entorno, condición e inspección"},
+{c:"/authenticitycheck",d:"Resalta detalles que indican autenticidad.",cat:"m10k",grp:"Entorno, condición e inspección"},
+{c:"/repairability",d:"Muestra qué partes se pueden reparar o reemplazar.",cat:"m10k",grp:"Entorno, condición e inspección"},
+{c:"/thermalview",d:"Muestra la distribución de calor en el sujeto.",cat:"m10k",grp:"Vistas científicas y sensoriales"},
+{c:"/thermalvision",d:"Usa una perspectiva de cámara térmica.",cat:"m10k",grp:"Vistas científicas y sensoriales"},
+{c:"/infrared",d:"Usa una imagen estilo infrarrojo.",cat:"m10k",grp:"Vistas científicas y sensoriales"},
+{c:"/nightvision",d:"Usa una vista verde de visión nocturna.",cat:"m10k",grp:"Vistas científicas y sensoriales"},
+{c:"/ultrasound",d:"Usa una vista médica estilo ecografía.",cat:"m10k",grp:"Vistas científicas y sensoriales"},
+{c:"/radarview",d:"Presenta el sujeto como una pantalla de radar.",cat:"m10k",grp:"Vistas científicas y sensoriales"},
+{c:"/sonar",d:"Muestra distancia y objetos a través del sonido.",cat:"m10k",grp:"Vistas científicas y sensoriales"},
+{c:"/magneticfield",d:"Visualiza las líneas de campo magnético.",cat:"m10k",grp:"Vistas científicas y sensoriales"},
+{c:"/spectrogram",d:"Representa el sonido como frecuencias y color.",cat:"m10k",grp:"Vistas científicas y sensoriales"},
+{c:"/soundwave",d:"Muestra una forma de onda de audio alrededor del sujeto.",cat:"m10k",grp:"Vistas científicas y sensoriales"},
+{c:"/smellmap",d:"Visualiza la propagación o concentración de un olor.",cat:"m10k",grp:"Vistas científicas y sensoriales"},
+{c:"/electricalfield",d:"Muestra la energía eléctrica alrededor del sujeto.",cat:"m10k",grp:"Vistas científicas y sensoriales"},
+{c:"/3dbillboard [producto]",d:"Coloca tu producto en una valla publicitaria 3D gigante en una avenida moderna, con perspectiva volumétrica y luces de ciudad de fondo.",cat:"img",grp:"Anuncios y publicidad"},
+{c:"/newspaperad [producto]",d:"Inserta tu producto en un anuncio de prensa vintage: tipografía editorial en columnas, fondo de papel envejecido.",cat:"img",grp:"Anuncios y publicidad"},
+{c:"/busad [producto]",d:"Coloca tu producto envolviendo el lateral completo de un bus urbano, con la ciudad reflejada en las ventanas.",cat:"img",grp:"Anuncios y publicidad"},
+{c:"/timessquare [producto]",d:"Tu producto en una valla LED gigante estilo Times Square, rodeado de pantallas y multitud borrosa abajo.",cat:"img",grp:"Anuncios y publicidad"},
+{c:"/streetposter [producto]",d:"Tu producto como afiche pegado en una pared urbana, con textura de concreto y otros afiches rotos alrededor.",cat:"img",grp:"Anuncios y publicidad"},
+{c:"/luxurybillboard [producto]",d:"Tu producto en una valla 3D gigante en pleno Times Square con acabado premium: pantallas LED, luces de ciudad y multitud borrosa.",cat:"img",grp:"Anuncios y publicidad"},
+{c:"/giantcgi [producto]",d:"Convierte tu producto en una instalación monumental gigante en la ciudad, interactuando con edificios y gente a escala real.",cat:"img",grp:"Anuncios y publicidad"},
+{c:"/metaad [producto] [beneficio]",d:"Anuncio vertical de alto impacto para Meta/Instagram Ads: producto centrado, gráficos flotantes, tipografía comercial, beneficio destacado.",cat:"img",grp:"Anuncios y publicidad"},
+{c:"/subwayad [producto]",d:"Tu producto integrado en un cartel dentro de un vagón de metro real, con pasajeros desenfocados y el reflejo típico del vidrio.",cat:"img",grp:"Anuncios y publicidad"},
+{c:"/airportad [producto]",d:"Tu producto en una pantalla retroiluminada dentro de un aeropuerto, con pasajeros caminando de fondo y luz de terminal.",cat:"img",grp:"Anuncios y publicidad"},
+{c:"/cinemaposter [producto]",d:"Convierte tu producto en el protagonista de un póster de película, con tipografía cinematográfica y composición dramática.",cat:"img",grp:"Anuncios y publicidad"},
+{c:"/taxiwrap [producto]",d:"Tu producto en el techo o costado de un taxi, con la calle y otros vehículos de fondo en una escena de tráfico real.",cat:"img",grp:"Anuncios y publicidad"},
+{c:"/streetcoffee [producto]",d:"Foto publicitaria urbana de tu producto en plena avenida al atardecer, luz cálida golden hour, edificios desenfocados de fondo.",cat:"img",grp:"Anuncios y publicidad"},
+{c:"/luxuryeditorial [producto]",d:"Portada de revista de moda de lujo con iluminación de pasarela y fondo minimalista.",cat:"img",grp:"Editorial y lujo"},
+{c:"/museumdisplay [producto]",d:"Tu producto exhibido como pieza de museo: pedestal iluminado, sala oscura, cordón de seguridad, placa descriptiva.",cat:"img",grp:"Editorial y lujo"},
+{c:"/magazinespread [producto]",d:"Tu producto distribuido en una doble página de revista, con texto editorial simulado y composición tipo spread de moda.",cat:"img",grp:"Editorial y lujo"},
+{c:"/jewelrycase [producto]",d:"Tu producto exhibido en un estuche de terciopelo oscuro, con un solo haz de luz creando destellos dramáticos.",cat:"img",grp:"Editorial y lujo"},
+{c:"/premiumshowcase [producto]",d:"Photoshoot de estudio de lujo sobre piedra/mármol, iluminación cinematográfica, gotas de condensación y destellos sutiles.",cat:"img",grp:"Editorial y lujo"},
+{c:"/redcarpet [producto]",d:"Tu producto posando en una alfombra roja, con flashes desenfocados y fondo de logos tipo premiere.",cat:"img",grp:"Editorial y lujo"},
+{c:"/perfumead [producto]",d:"Estética clásica de anuncio de perfume: luz suave, tela fluida en movimiento, gotas de líquido suspendidas.",cat:"img",grp:"Editorial y lujo"},
+{c:"/runwaybackdrop [producto]",d:"Tu producto como parte de un desfile de moda, con pasarela iluminada y siluetas borrosas de público al fondo.",cat:"img",grp:"Editorial y lujo"},
+{c:"/natureelements [producto]",d:"Entorno orgánico exterior: agua cristalina, rocas volcánicas, musgo fresco y luz natural.",cat:"img",grp:"Naturaleza y orgánico"},
+{c:"/junglecanopy [producto]",d:"Tu producto rodeado de follaje denso de selva, con rayos de luz filtrándose entre las hojas.",cat:"img",grp:"Naturaleza y orgánico"},
+{c:"/underwaterscene [producto]",d:"Tu producto sumergido con rayos de luz atravesando el agua, burbujas y sensación de ingravidez.",cat:"img",grp:"Naturaleza y orgánico"},
+{c:"/desertdunes [producto]",d:"Tu producto sobre dunas de arena dorada, con sombras largas de atardecer y textura de arena en primer plano.",cat:"img",grp:"Naturaleza y orgánico"},
+{c:"/mountainpeak [producto]",d:"Tu producto en la cima de una montaña, con niebla baja, picos nevados de fondo y sensación de logro.",cat:"img",grp:"Naturaleza y orgánico"},
+{c:"/rainforest [producto]",d:"Lluvia tropical ligera cayendo sobre tu producto, gotas visibles en el aire, vegetación exuberante.",cat:"img",grp:"Naturaleza y orgánico"},
+{c:"/snowscape [producto]",d:"Tu producto sobre un paisaje nevado, copos cayendo suavemente, atmósfera fría y limpia.",cat:"img",grp:"Naturaleza y orgánico"},
+{c:"/beachshore [producto]",d:"Tu producto en la orilla de una playa, olas suaves, arena mojada reflejando el cielo, luz cálida.",cat:"img",grp:"Naturaleza y orgánico"},
+{c:"/autumnleaves [producto]",d:"Tu producto rodeado de hojas de otoño cayendo, tonos naranja y dorado, luz cálida de tarde.",cat:"img",grp:"Naturaleza y orgánico"},
+{c:"/botanicalscene [producto]",d:"Tu producto en un escenario natural sobre roca volcánica, rodeado de plantas tropicales y luz filtrada.",cat:"img",grp:"Naturaleza y orgánico"},
+{c:"/floating3d [producto]",d:"Render 3D de alta gama con el producto suspendido en gravedad cero y partículas dinámicas.",cat:"img",grp:"3D y surreal"},
+{c:"/giantscale [producto] [ciudad]",d:"Tu producto a escala gigante, tipo Godzilla, interactuando con una ciudad real que definas.",cat:"img",grp:"3D y surreal"},
+{c:"/crystalformation [producto]",d:"Tu producto emergiendo de formaciones de cristal translúcido que refractan la luz en múltiples colores.",cat:"img",grp:"3D y surreal"},
+{c:"/geometricabstract [producto]",d:"Tu producto flotando entre formas geométricas 3D abstractas en colores complementarios a tu marca.",cat:"img",grp:"3D y surreal"},
+{c:"/portaldimension [producto]",d:"Tu producto emergiendo de un portal de energía o dimensión alterna, con distorsión de luz en el borde.",cat:"img",grp:"3D y surreal"},
+{c:"/mirrorworld [producto]",d:"Tu producto duplicado y reflejado en una superficie de espejo infinito, efecto de repetición hipnótica.",cat:"img",grp:"3D y surreal"},
+{c:"/liquidsplash [producto]",d:"Tu producto emergiendo o rodeado de un splash de líquido congelado en el aire, estilo comercial de alta velocidad.",cat:"img",grp:"3D y surreal"},
+{c:"/holographic [producto]",d:"Tu producto con un fondo holográfico iridiscente que cambia de color según el ángulo, estilo futurista.",cat:"img",grp:"3D y surreal"},
+{c:"/lowpolyworld [producto]",d:"Tu producto renderizado en un entorno low poly: formas facetadas, colores planos, estética de videojuego indie.",cat:"img",grp:"3D y surreal"},
+{c:"/cyberpunkad [producto]",d:"Escenario nocturno futurista en Tokio con luces neón, lluvia y reflejos en asfalto húmedo.",cat:"img",grp:"3D y surreal"},
+{c:"/rooftopskyline [producto]",d:"Tu producto en la azotea de un edificio, con el skyline de una ciudad de fondo al atardecer o de noche.",cat:"img",grp:"Urbano y futurista"},
+{c:"/subwaystation [producto]",d:"Tu producto dentro de una estación de metro, rieles, iluminación fluorescente, tren desenfocado llegando.",cat:"img",grp:"Urbano y futurista"},
+{c:"/skyscraperview [producto]",d:"Tu producto junto a una ventana de rascacielos, con la ciudad completa visible abajo y luz natural de lado.",cat:"img",grp:"Urbano y futurista"},
+{c:"/industrialwarehouse [producto]",d:"Tu producto en una bodega industrial con estructuras metálicas, luz de ventanas altas, concreto desgastado.",cat:"img",grp:"Urbano y futurista"},
+{c:"/neonalley [producto]",d:"Tu producto en un callejón urbano iluminado por letreros de neón de colores, charcos reflejando la luz.",cat:"img",grp:"Urbano y futurista"},
+{c:"/rainystreet [producto]",d:"Tu producto en una calle mojada por la lluvia, reflejos de luces de ciudad en el pavimento, ambiente nocturno.",cat:"img",grp:"Urbano y futurista"},
+{c:"/highwaynight [producto]",d:"Tu producto junto a una autopista nocturna, con estelas de luz de carros en movimiento de fondo.",cat:"img",grp:"Urbano y futurista"},
+{c:"/parkinggarage [producto]",d:"Tu producto en un estacionamiento de concreto, líneas amarillas, iluminación fluorescente cruda, sombras geométricas.",cat:"img",grp:"Urbano y futurista"},
+{c:"/dinercounter [producto]",d:"Tu producto sobre el mostrador de un diner americano de los 50, vinilo a cuadros, taburetes cromados, luz de neón.",cat:"img",grp:"Urbano y futurista"},
+{c:"/filmnoir [producto]",d:"Tu producto en blanco y negro con iluminación dramática de cine negro, sombras marcadas, contraste alto.",cat:"img",grp:"Urbano y futurista"},
+{c:"/polaroidframe [producto]",d:"Tu producto con el marco blanco de una polaroid, colores ligeramente desaturados, esquinas suaves.",cat:"img",grp:"Vintage y retro"},
+{c:"/vinylsleeve [producto]",d:"Tu producto diseñado como portada de un disco de vinilo, tipografía y composición tipo álbum de música.",cat:"img",grp:"Vintage y retro"},
+{c:"/oldtvscreen [producto]",d:"Tu producto dentro de la pantalla de un televisor antiguo de tubo, líneas de escaneo, textura granulada.",cat:"img",grp:"Vintage y retro"},
+{c:"/retroposter [producto]",d:"Tu producto como póster ilustrado estilo publicidad de los 60-70, colores planos, ilustración vectorial.",cat:"img",grp:"Vintage y retro"},
+{c:"/typewriterdesk [producto]",d:"Tu producto sobre un escritorio vintage de madera junto a una máquina de escribir antigua, papel amarillento, luz de lámpara.",cat:"img",grp:"Vintage y retro"},
+{c:"/tiktokstyle [producto]",d:"Tu producto en composición vertical con espacio arriba y abajo para texto/interfaz, estética casera pero cuidada.",cat:"img",grp:"Redes sociales y formatos"},
+{c:"/pinterestpin [producto]",d:"Tu producto en formato vertical alargado con paleta armoniosa, pensado para destacar en Pinterest.",cat:"img",grp:"Redes sociales y formatos"},
+{c:"/linkedinbanner [producto]",d:"Tu producto en composición horizontal profesional y limpia, con espacio negativo a los lados para texto corporativo.",cat:"img",grp:"Redes sociales y formatos"},
+{c:"/storeprofilebanner [producto]",d:"Tu producto en composición horizontal de portada, con espacio para logo y texto de marca a un costado.",cat:"img",grp:"Redes sociales y formatos"},
+{c:"/shortsvertical [producto]",d:"Tu producto en formato 9:16 con movimiento sugerido (ángulo dinámico, ligera inclinación) para video corto.",cat:"img",grp:"Redes sociales y formatos"},
+{c:"/instastory [producto]",d:"Tu producto en formato 9:16 pensado para que el texto/stickers de Instagram no tapen el elemento principal.",cat:"img",grp:"Redes sociales y formatos"},
+{c:"/youtubethumb [producto]",d:"Tu producto con composición de alto impacto emocional, colores saturados, espacio claro para texto grande.",cat:"img",grp:"Redes sociales y formatos"},
+{c:"/whatsappstatus [producto]",d:"Tu producto en formato vertical simple y directo, composición minimalista que se ve bien en pantallas pequeñas.",cat:"img",grp:"Redes sociales y formatos"},
+{c:"/carouselcover [producto]",d:"Tu producto como portada de un carrusel, composición con jerarquía visual clara que invita a deslizar.",cat:"img",grp:"Redes sociales y formatos"},
+{c:"/christmasscene [producto]",d:"Tu producto rodeado de elementos navideños: luces cálidas, ramas de pino, nieve suave, sin saturar la composición.",cat:"img",grp:"Estacional y temático"},
+{c:"/halloweenmood [producto]",d:"Tu producto en atmósfera de Halloween: niebla baja, calabazas talladas, luz naranja tenue, sin terror explícito.",cat:"img",grp:"Estacional y temático"},
+{c:"/blackfridaydeal [producto]",d:"Tu producto con elementos gráficos de oferta (porcentajes, etiquetas) integrados como parte del diseño.",cat:"img",grp:"Estacional y temático"},
+{c:"/springbloom [producto]",d:"Tu producto rodeado de flores en plena floración, colores pastel suaves, luz natural fresca.",cat:"img",grp:"Estacional y temático"},
+{c:"/mothersdaywarmth [producto]",d:"Tu producto en escena cálida y hogareña: luz suave de ventana, tonos tierra, sensación de gratitud.",cat:"img",grp:"Estacional y temático"},
+{c:"/summerbeach [producto]",d:"Tu producto en una escena de playa vibrante de verano, colores saturados, sombra de sombrilla, sensación de vacaciones.",cat:"img",grp:"Estacional y temático"},
+{c:"/valentinesglow [producto]",d:"Tu producto rodeado de pétalos de rosa y luz cálida rosada/roja, composición romántica pero elegante.",cat:"img",grp:"Estacional y temático"},
+{c:"/newyearsparkle [producto]",d:"Tu producto con confeti dorado y plateado cayendo, luces de fiesta desenfocadas, sensación de celebración.",cat:"img",grp:"Estacional y temático"},
+{c:"/backtoschool [producto]",d:"Tu producto junto a elementos escolares (cuadernos, lápices, mochila) en composición ordenada y luminosa.",cat:"img",grp:"Estacional y temático"},
+{c:"/oktoberfestvibe [producto]",d:"Tu producto en escena festiva estilo Oktoberfest: mesas de madera, luces cálidas colgantes, celebración al aire libre.",cat:"img",grp:"Estacional y temático"},
+{c:"/goldenhourproduct [producto] [lugar]",d:"Tu producto bañado en luz dorada de atardecer, sombras largas, ambiente cálido, en el lugar que definas.",cat:"img",grp:"Lifestyle y contexto real"},
+{c:"/kitchencounter [producto]",d:"Tu producto sobre una encimera de cocina real, luz de mañana por la ventana, elementos cotidianos desenfocados.",cat:"img",grp:"Lifestyle y contexto real"},
+{c:"/officedesk [producto]",d:"Tu producto sobre un escritorio de oficina moderno, con laptop, planta y luz natural, contexto de productividad.",cat:"img",grp:"Lifestyle y contexto real"},
+{c:"/carinterior [producto]",d:"Tu producto dentro del interior de un auto, en el asiento o tablero, luz natural entrando por la ventana.",cat:"img",grp:"Lifestyle y contexto real"},
+{c:"/bathroomshelf [producto]",d:"Tu producto en una repisa de baño con azulejos limpios, una planta pequeña, luz suave difusa.",cat:"img",grp:"Lifestyle y contexto real"},
+{c:"/cafetable [producto]",d:"Tu producto sobre la mesa de un café, taza humeante cerca, luz cálida de ventana, ambiente urbano relajado.",cat:"img",grp:"Lifestyle y contexto real"},
+{c:"/gymlocker [producto]",d:"Tu producto junto a un casillero de gimnasio abierto, con toalla, botella de agua y luz de vestidor deportivo.",cat:"img",grp:"Lifestyle y contexto real"},
+{c:"/picnicblanket [producto]",d:"Tu producto sobre una manta de picnic en un parque, luz de sol filtrada entre árboles, atmósfera relajada.",cat:"img",grp:"Lifestyle y contexto real"},
+{c:"/travelsuitcase [producto]",d:"Tu producto dentro o junto a una maleta de viaje abierta, con ropa doblada y accesorios alrededor.",cat:"img",grp:"Lifestyle y contexto real"},
+{c:"/poolside [producto]",d:"Tu producto junto a una piscina, reflejos de agua turquesa, una toalla doblada cerca, luz brillante de mediodía.",cat:"img",grp:"Lifestyle y contexto real"},
+{c:"/spacescene [producto]",d:"Tu producto flotando en el espacio exterior, rodeado de estrellas, nebulosas de color y la curvatura de un planeta.",cat:"img",grp:"Fantasía y dramático"},
+{c:"/volcanicglow [producto]",d:"Tu producto cerca de roca volcánica con lava brillando en las grietas, resplandor naranja intenso.",cat:"img",grp:"Fantasía y dramático"},
+{c:"/fairytaleforest [producto]",d:"Tu producto en un bosque encantado con luces flotantes tipo luciérnaga, niebla suave, colores saturados de cuento.",cat:"img",grp:"Fantasía y dramático"},
+{c:"/cloudkingdom [producto]",d:"Tu producto sobre una plataforma de nubes densas iluminadas por el sol, cielo despejado, sensación de altura.",cat:"img",grp:"Fantasía y dramático"},
+{c:"/stormclouds [producto]",d:"Tu producto bajo un cielo dramático de tormenta, nubes densas y oscuras con un rayo de luz abriéndose paso.",cat:"img",grp:"Fantasía y dramático"},
+{c:"/auroraborealis [producto]",d:"Tu producto bajo un cielo nocturno con auroras boreales de colores ondulantes, nieve reflejando las luces.",cat:"img",grp:"Fantasía y dramático"},
+{c:"/underworldcave [producto]",d:"Tu producto dentro de una cueva de cristales brillantes, con luz misteriosa emanando de las paredes rocosas.",cat:"img",grp:"Fantasía y dramático"},
+{c:"/lightningstrike [producto]",d:"Tu producto en el momento exacto en que un rayo ilumina la escena, alto contraste y energía pura.",cat:"img",grp:"Fantasía y dramático"},
+{c:"/marblesurface [producto]",d:"Tu producto sobre una superficie de mármol con vetas naturales visibles, luz suave y reflejo sutil.",cat:"img",grp:"Textura y material"},
+{c:"/fabricdrape [producto]",d:"Tu producto envuelto o apoyado sobre tela drapeada elegantemente, pliegues suaves que capturan luz y sombra.",cat:"img",grp:"Textura y material"},
+{c:"/icecrystal [producto]",d:"Tu producto rodeado de cristales de hielo y escarcha, con luz fría azulada que comunica frescura extrema.",cat:"img",grp:"Textura y material"},
+{c:"/leathertexture [producto]",d:"Tu producto sobre cuero texturizado con costuras visibles, luz cálida que resalta el grano natural.",cat:"img",grp:"Textura y material"},
+{c:"/woodgrain [producto]",d:"Tu producto sobre madera con veta natural visible, luz cálida que resalta la textura orgánica.",cat:"img",grp:"Textura y material"},
+{c:"/concretewall [producto]",d:"Tu producto contra una pared de concreto con textura visible, luz dura lateral que crea sombras marcadas.",cat:"img",grp:"Textura y material"},
+{c:"/silkfold [producto]",d:"Tu producto sobre seda plisada con brillo suave, pliegues fluidos que generan movimiento visual.",cat:"img",grp:"Textura y material"},
+{c:"/goldfoil [producto]",d:"Tu producto con acentos de lámina dorada reflejando luz, fondo oscuro que resalta el brillo metálico.",cat:"img",grp:"Textura y material"},
+{c:"/colorexplosion [producto]",d:"Tu producto en el centro de una explosión de polvo de color, congelada en el aire en el momento del impacto.",cat:"img",grp:"Movimiento y acción"},
+{c:"/fallingpetals [producto]",d:"Tu producto rodeado de pétalos de flor cayendo suavemente, capturados en distintas alturas y ángulos.",cat:"img",grp:"Movimiento y acción"},
+{c:"/windblown [producto]",d:"Tu producto con elementos alrededor (tela, cabello, hojas) capturados en movimiento por el viento.",cat:"img",grp:"Movimiento y acción"},
+{c:"/confettiburst [producto]",d:"Tu producto en el momento de una explosión de confeti, piezas de papel de colores congeladas en el aire.",cat:"img",grp:"Movimiento y acción"},
+{c:"/smoketrails [producto]",d:"Tu producto con estelas de humo de colores envolviéndolo suavemente, movimiento etéreo alrededor.",cat:"img",grp:"Movimiento y acción"},
+{c:"/bubblepop [producto]",d:"Tu producto rodeado de burbujas translúcidas de distintos tamaños, algunas a punto de explotar.",cat:"img",grp:"Movimiento y acción"},
+{c:"/paintsplatter [producto]",d:"Tu producto rodeado de salpicaduras de pintura de colores congeladas en pleno movimiento.",cat:"img",grp:"Movimiento y acción"},
+{c:"/sparkshower [producto]",d:"Tu producto con una lluvia de chispas doradas cayendo alrededor, como fuegos artificiales en cámara lenta.",cat:"img",grp:"Movimiento y acción"},
+{c:"/aerialproduct [producto] [entorno]",d:"Vista aérea tipo dron de tu producto colocado en un entorno a escala (piscina, desierto, ciudad en miniatura).",cat:"img",grp:"Aéreo y escala"},
+{c:"/miniatureworld [producto]",d:"Tu producto a escala normal dentro de un mundo en miniatura, generando un efecto de escala surreal.",cat:"img",grp:"Aéreo y escala"},
+{c:"/satelliteview [producto]",d:"Tu producto integrado en una vista tipo satélite de la Tierra, continentes y océanos visibles de fondo.",cat:"img",grp:"Aéreo y escala"},
+{c:"/dronetopdown [producto]",d:"Vista aérea directa desde arriba de tu producto colocado en un entorno amplio y ordenado.",cat:"img",grp:"Aéreo y escala"},
+{c:"/cloudlevel [producto]",d:"Tu producto visto desde la altura de las nubes, como desde la ventanilla de un avión, capas de nubes abajo.",cat:"img",grp:"Aéreo y escala"},
+{c:"/crosssection [producto]",d:"Renderiza tu producto como de vidrio/cristal translúcido, dejando ver sus componentes internos en su posición real, acabado premium.",cat:"img",grp:"Corte y despiece 3D"},
+{c:"/xrayskeleton [producto]",d:"Radiografía monocromática del producto en escala de grises sobre fondo negro, mostrando su estructura interna tipo placa de rayos X.",cat:"img",grp:"Corte y despiece 3D"},
+{c:"/piecebypiece [producto]",d:"Despiece técnico: todas sus piezas flotando separadas en el aire, conectadas por líneas finas a su posición original, fondo oscuro.",cat:"img",grp:"Corte y despiece 3D"},
+{c:"/halfhalf [producto]",d:"El producto partido por la mitad en foto real: un lado muestra el acabado exterior, el otro revela el mecanismo o material interno.",cat:"img",grp:"Corte y despiece 3D"},
+{c:"/schematic [producto]",d:"Boceto técnico a mano con tinta sobre papel cuadriculado envejecido, mostrando estructura y componentes, estilo plano de patente antigua.",cat:"img",grp:"Boceto e ilustración técnica"},
+{c:"/bluewatercolor [producto]",d:"Ilustración técnica en acuarela con washes de azul suave, líneas de construcción visibles, estilo lámina de manual antiguo.",cat:"img",grp:"Boceto e ilustración técnica"},
+{c:"/inkpatent [producto]",d:"Ilustración estilo grabado de patente antigua: líneas finas, cross-hatching, papel pergamino envejecido con numeración de partes.",cat:"img",grp:"Boceto e ilustración técnica"},
+{c:"/chalkboard [producto]",d:"Diagrama del producto dibujado con tiza blanca y de colores sobre una pizarra negra, con textura real de tiza.",cat:"img",grp:"Boceto e ilustración técnica"},
+{c:"/orthoview [producto]",d:"Tres vistas del producto (frontal, lateral, superior) lado a lado en un plano técnico azul marino con líneas de medición, estilo blueprint.",cat:"img",grp:"Vistas técnicas y ortográficas"},
+{c:"/floorplanstyle [producto]",d:"Vista de planta arquitectónica del producto desde arriba, con líneas técnicas, medidas y textura de plano de construcción.",cat:"img",grp:"Vistas técnicas y ortográficas"},
+{c:"/rotationgrid [producto]",d:"Cuadrícula de 8 vistas del producto rotado en incrementos de 45°, fondo de estudio limpio y consistente, tipo hoja de referencia.",cat:"img",grp:"Vistas técnicas y ortográficas"},
+{c:"/layerbylayer [producto]",d:"Foto real cenital mostrando todos los componentes o ingredientes del producto organizados en cuadrícula ordenada.",cat:"img",grp:"Fotografía real estructurada"},
+{c:"/knolling [producto]",d:"Foto real de todas las piezas o accesorios desarmados y organizados en cuadrícula perfecta, desde arriba con luz uniforme.",cat:"img",grp:"Fotografía real estructurada"},
+{c:"/macrotexture [producto]",d:"Foto macro extrema de un detalle de material o textura clave (costura, grano, tejido), tan cerca que se pierde el contexto del objeto.",cat:"img",grp:"Fotografía real estructurada"},
+{c:"/hudscan [producto]",d:"Foto real de tu producto intacta, con una capa de líneas de escaneo azul holográfico revelando datos técnicos, estilo interfaz sci-fi.",cat:"img",grp:"Overlay digital y datos"},
+{c:"/thermalvision [producto]",d:"El producto con paleta de cámara térmica: gradiente de azul a rojo pasando por morado y naranja, tipo mapa de calor.",cat:"img",grp:"Overlay digital y datos"},
+{c:"/dataoverlay [producto]",d:"Foto real del producto con especificaciones flotando estilo keynote: líneas delgadas, tipografía sans-serif limpia, sin efectos futuristas.",cat:"img",grp:"Overlay digital y datos"},
+{c:"/explodedview [producto]",d:"Despiece técnico flotando con etiquetas señalando cada parte, fondo publicitario azul eléctrico, iluminación de estudio, estilo lanzamiento tech.",cat:"img",grp:"Anuncios con datos técnicos"},
+{c:"/anatomy [producto]",d:"Desglose de cada capa del producto flotando una sobre otra con nombres etiquetados, fondo cálido rojo y naranja, estilo campaña de comida rápida.",cat:"img",grp:"Anuncios con datos técnicos"},
+{c:"/xray [mascota]",d:"Ilustración médica tipo rayos X con las capas internas del animal (esqueleto, músculos, órganos), estilo diagrama veterinario, monocromático.",cat:"img",grp:"Anuncios con datos técnicos"},
+{c:"/adsplash [producto]",d:"Anuncio de alto impacto: el producto emergiendo de una explosión de líquido o color congelada, tipografía comercial y gráficos flotantes.",cat:"img",grp:"Anuncios con datos técnicos"},
+{c:"/360view [producto]",d:"Hoja de 8 ángulos ortogonales del producto sobre fondo de bloques de color vibrante estilo pop art, campaña de moda o calzado deportivo.",cat:"img",grp:"Anuncios con datos técnicos"},
+{c:"/cutaway [vehículo]",d:"Corte transversal del vehículo mostrando motor, chasis y componentes internos con etiquetas técnicas, fondo de taller industrial.",cat:"img",grp:"Casos por industria"},
+{c:"/realestatecutaway [propiedad]",d:"Corte arquitectónico tipo casa de muñecas de la propiedad, mostrando el interior de cada habitación desde un ángulo isométrico.",cat:"img",grp:"Casos por industria"},
+{c:"/fashionflat [prenda]",d:"Dibujo técnico de moda (fashion flat) de la prenda: silueta plana sin cuerpo, con costuras, cierres y acabados marcados con líneas finas.",cat:"img",grp:"Casos por industria"},
+{c:"/jewelrycrosssection [joya]",d:"Corte transversal de la joya mostrando el mecanismo de engaste de la piedra y la estructura interna del metal, acabado de lujo.",cat:"img",grp:"Casos por industria"},
+{c:"/vehicleblueprint [vehículo]",d:"Ficha técnica completa del vehículo estilo folleto de concesionario: vistas laterales, medidas y especificaciones sobre plano industrial.",cat:"img",grp:"Casos por industria"},
+{c:"/foodingredientmap [platillo]",d:"Mapa ilustrado de los ingredientes distribuidos alrededor de la foto real del plato servido, con líneas finas conectando cada uno.",cat:"img",grp:"Casos por industria"},
+{c:"/ganchoscroll [tema]",d:"Genera 10 primeras líneas para un post/reel sobre el tema, cada una diseñada para detener el scroll en el primer segundo.",cat:"cont",grp:"Ganchos y aperturas"},
+{c:"/aperturaconflicto [tema]",d:"Escribe una apertura que presenta un conflicto o tensión sin resolver sobre el tema, obligando a seguir para encontrar la resolución.",cat:"cont",grp:"Ganchos y aperturas"},
+{c:"/preguntaincomoda [nicho]",d:"Genera 5 preguntas directas e incómodas sobre el nicho que tu audiencia se hace pero rara vez ve respondidas.",cat:"cont",grp:"Ganchos y aperturas"},
+{c:"/confesionpost [aprendizaje]",d:"Convierte el aprendizaje en un post de confesión personal: el error, lo que aprendiste, cómo lo aplicás ahora.",cat:"cont",grp:"Ganchos y aperturas"},
+{c:"/statimpacto [nicho]",d:"Sugiere 5 estadísticas de alto impacto sobre el nicho que funcionen como apertura de post, con la fuente a verificar.",cat:"cont",grp:"Ganchos y aperturas"},
+{c:"/postlista [tema]",d:"Escribe un post tipo lista sobre el tema con 5-7 puntos, cada uno con una línea de valor real, sin relleno.",cat:"cont",grp:"Formatos de post"},
+{c:"/postmito [nicho]",d:"Identifica 3 mitos comunes en el nicho y los desmiente uno por uno con una explicación corta y clara.",cat:"cont",grp:"Formatos de post"},
+{c:"/postcomparacion [opción A] vs [opción B]",d:"Compara ambas opciones de forma directa, con una recomendación clara al final según el contexto del lector.",cat:"cont",grp:"Formatos de post"},
+{c:"/postresultado [proyecto/cliente]",d:"Convierte un resultado real en un post que muestra el proceso, no solo el resultado final.",cat:"cont",grp:"Formatos de post"},
+{c:"/postopinion [tema polémico]",d:"Escribe una opinión fuerte y bien argumentada, anticipando la objeción más común y respondiéndola en el mismo post.",cat:"cont",grp:"Formatos de post"},
+{c:"/postbastidores [proceso]",d:"Convierte tu proceso de trabajo diario en un post detrás de cámaras que humaniza tu marca sin perder el valor educativo.",cat:"cont",grp:"Formatos de post"},
+{c:"/semana7dias [objetivo del mes]",d:"Diseña 7 días de contenido variado (no repetitivo en formato) enfocados en el objetivo del mes, con el propósito de cada pieza.",cat:"cont",grp:"Calendario y planeación"},
+{c:"/temasmes [nicho] [fecha]",d:"Identifica 4 temas relevantes para el nicho en ese mes, conectados con estacionalidad, tendencias o fechas clave.",cat:"cont",grp:"Calendario y planeación"},
+{c:"/pilarcontenido [marca]",d:"Define 3 pilares de contenido para la marca, con 5 ideas de post bajo cada pilar.",cat:"cont",grp:"Calendario y planeación"},
+{c:"/planbcontenido [evento externo]",d:"Prepara 3 piezas de contenido de respaldo por si el evento externo te deja sin tiempo de grabar algo nuevo.",cat:"cont",grp:"Calendario y planeación"},
+{c:"/respuestacomentario [tipo de comentario]",d:"Genera 5 formas de responder al tipo de comentario que generan más conversación en vez de cerrarla.",cat:"cont",grp:"Interacción y comunidad"},
+{c:"/encuestasinteligentes [nicho]",d:"Diseña 5 encuestas donde cada opción de respuesta te da información real sobre lo que tu audiencia necesita.",cat:"cont",grp:"Interacción y comunidad"},
+{c:"/bienvenidaseguidor [marca]",d:"Escribe un mensaje de bienvenida para nuevos seguidores, cálido, con una pregunta, sin intentar vender nada todavía.",cat:"cont",grp:"Interacción y comunidad"},
+{c:"/hilopolemico [tema]",d:"Escribe un post diseñado para generar debate sano en comentarios sobre el tema, sin cruzar a ofensivo.",cat:"cont",grp:"Interacción y comunidad"},
+{c:"/aperturadm [contexto]",d:"Escribe 5 mensajes directos para abrir conversación en ese contexto (nuevo seguidor, comentario, lead) sin sonar a plantilla.",cat:"cont",grp:"Interacción y comunidad"},
+{c:"/trocearvideo [video largo]",d:"Identifica 5 momentos de un video largo que funcionarían como clips independientes, con el gancho de cada uno.",cat:"cont",grp:"Reutilización de contenido"},
+{c:"/postdesdevideo [transcripción]",d:"Convierte la transcripción de un video en 3 posts de texto independientes, cada uno con su propio ángulo y gancho.",cat:"cont",grp:"Reutilización de contenido"},
+{c:"/reciclaje [post viejo]",d:"Toma un post que funcionó bien y genera una versión actualizada: mismo mensaje central, ángulo y formato distintos.",cat:"cont",grp:"Reutilización de contenido"},
+{c:"/multiplataforma [post] [plataforma]",d:"Adapta el post a las convenciones nativas de otra plataforma sin que se sienta copiado y pegado.",cat:"cont",grp:"Reutilización de contenido"},
+{c:"/biooptima [lo que hacés]",d:"Escribe 5 versiones de bio basadas en lo que hacés, cada una con un ángulo distinto de por qué seguirte.",cat:"cont",grp:"Perfil y marca personal"},
+{c:"/postfijado [marca]",d:"Diseña el contenido ideal para tu post fijado: lo que un desconocido necesita ver en 8 segundos para decidir seguirte.",cat:"cont",grp:"Perfil y marca personal"},
+{c:"/historiapersonal [tu trayectoria]",d:"Convierte tu trayectoria en una historia de marca personal breve: de dónde venís, qué cambió, dónde estás ahora.",cat:"cont",grp:"Perfil y marca personal"},
+{c:"/diagnosticopost [post que no funcionó]",d:"Analiza por qué ese post no tuvo el desempeño esperado: gancho, formato, momento de publicación, o tema.",cat:"cont",grp:"Análisis de contenido"},
+{c:"/patronexitoso [3 posts que sí funcionaron]",d:"Encuentra el patrón común entre los 3 posts para que puedas repetirlo de forma consciente, no accidental.",cat:"cont",grp:"Análisis de contenido"},
+{c:"/prediccionalcance [borrador de post]",d:"Evalúa el borrador antes de publicarlo y señala qué partes probablemente frenan el alcance.",cat:"cont",grp:"Análisis de contenido"},
+{c:"/textobeneficio [producto/servicio]",d:"Convierte las características en beneficios reales: no qué tiene, sino qué cambia para quien lo usa.",cat:"copy",grp:"Textos persuasivos"},
+{c:"/textourgencia [oferta]",d:"Escribe 3 versiones de copy con distintos niveles de urgencia (sutil, moderado, directo) sin sonar desesperado.",cat:"copy",grp:"Textos persuasivos"},
+{c:"/textohistoria [producto] [caso real]",d:"Convierte un caso real de uso en un texto de venta narrado como historia, no como lista de características.",cat:"copy",grp:"Textos persuasivos"},
+{c:"/textoobjecion [objeción común]",d:"Escribe un texto que reconoce abiertamente la objeción antes de que el lector la piense, y la resuelve con honestidad.",cat:"copy",grp:"Textos persuasivos"},
+{c:"/textocomparativo [tu oferta] vs [alternativa]",d:"Escribe un texto que posiciona tu oferta frente a la alternativa sin atacar directamente, resaltando la diferencia real.",cat:"copy",grp:"Textos persuasivos"},
+{c:"/titular10 [pieza de contenido]",d:"Genera 10 titulares en 3 estilos: curiosidad, beneficio directo, número/dato.",cat:"copy",grp:"Titulares y asuntos"},
+{c:"/asuntoemail [contenido del correo]",d:"Escribe 8 líneas de asunto cortas, sin sonar a spam, con curiosidad genuina.",cat:"copy",grp:"Titulares y asuntos"},
+{c:"/titularcontraste [tema]",d:"Escribe 5 titulares que contrastan una creencia común con la realidad.",cat:"copy",grp:"Titulares y asuntos"},
+{c:"/subtitulo [titular ya elegido]",d:"Escribe 3 subtítulos que amplían el titular sin repetir la misma idea, agregando una razón concreta para seguir leyendo.",cat:"copy",grp:"Titulares y asuntos"},
+{c:"/tituloportafolio [proyecto]",d:"Escribe 5 formas de titular el proyecto en tu portafolio, priorizando el resultado logrado sobre el proceso.",cat:"copy",grp:"Titulares y asuntos"},
+{c:"/ctanatural [acción deseada]",d:"Escribe 8 llamados a la acción que suenan a conversación, no a botón de venta.",cat:"copy",grp:"CTAs y cierres"},
+{c:"/cierrepost [tema del post]",d:"Escribe 5 formas de cerrar un post: con pregunta, con reto, con reflexión, con dato, con invitación directa.",cat:"copy",grp:"CTAs y cierres"},
+{c:"/ctaobjecion [objeción de compra]",d:"Escribe un CTA que neutraliza la objeción en la misma línea de la llamada a la acción, sin sonar defensivo.",cat:"copy",grp:"CTAs y cierres"},
+{c:"/ctaescasez [oferta con límite real]",d:"Escribe 4 versiones de CTA siendo honesto sobre el límite (cupos, tiempo, unidades), sin presión falsa.",cat:"copy",grp:"CTAs y cierres"},
+{c:"/textoclaro [texto confuso]",d:"Reescribe el texto priorizando claridad: frases cortas, una idea por oración, cero ambigüedad.",cat:"copy",grp:"Edición y mejora"},
+{c:"/textoritmo [texto plano]",d:"Reescribe variando el largo de las frases para darle ritmo, evitando que suene monótono al leerlo en voz alta.",cat:"copy",grp:"Edición y mejora"},
+{c:"/textovoz [3 posts tuyos] [texto nuevo]",d:"Analiza tu voz en los 3 posts y reescribe el texto nuevo para que suene consistente con cómo realmente escribís.",cat:"copy",grp:"Edición y mejora"},
+{c:"/textocorto [texto largo]",d:"Reduce el texto a la mitad manteniendo el mensaje central, mostrándote qué se eliminó y por qué.",cat:"copy",grp:"Edición y mejora"},
+{c:"/textorevision [texto final]",d:"Revisa el texto buscando errores de claridad, tono inconsistente o frases que un lector podría malinterpretar.",cat:"copy",grp:"Edición y mejora"},
+{c:"/textotraduccion [texto] [idioma destino]",d:"Adapta (no solo traduce) el texto al idioma destino, ajustando expresiones y referencias culturales.",cat:"copy",grp:"Edición y mejora"},
+{c:"/ideasvisuales50 [nicho]",d:"Genera 50 ideas de contenido visual organizadas en 5 bloques temáticos de 10 cada uno.",cat:"idea",grp:"Generación de ideas"},
+{c:"/ideatransformacion [producto/servicio]",d:"Propone 5 conceptos de antes y después visual para mostrar el impacto real del producto/servicio.",cat:"idea",grp:"Generación de ideas"},
+{c:"/ideaescenacambio [tu contexto real]",d:"Sugiere 5 conceptos de cambio de escenario en plano continuo adaptados a tu contexto real.",cat:"idea",grp:"Generación de ideas"},
+{c:"/ideaserie [tema amplio]",d:"Convierte el tema amplio en una serie de 5 piezas conectadas que hacen que la gente quiera ver la siguiente.",cat:"idea",grp:"Generación de ideas"},
+{c:"/ideacontraste [dos conceptos opuestos]",d:"Genera 5 ideas visuales que contrastan ambos conceptos en una sola pieza (split-screen, antes/después).",cat:"idea",grp:"Generación de ideas"},
+{c:"/ideatendencia [tendencia] [tu nicho]",d:"Adapta la tendencia a tu nicho de 3 formas distintas sin perder lo que la hizo viral originalmente.",cat:"idea",grp:"Generación de ideas"},
+{c:"/anguloinusual [tema común]",d:"Encuentra 5 ángulos visuales poco comunes para mostrar un tema que ya todo el mundo cubre igual.",cat:"idea",grp:"Ángulos y ganchos visuales"},
+{c:"/primerframe [concepto de video]",d:"Describe 5 opciones del primer fotograma exacto: lo que se ve en el frame 1, antes de que pase nada.",cat:"idea",grp:"Ángulos y ganchos visuales"},
+{c:"/objetoprotagonista [mensaje]",d:"Sugiere 5 objetos físicos que podrían ser el protagonista visual, en vez de que hables directo a cámara.",cat:"idea",grp:"Ángulos y ganchos visuales"},
+{c:"/anguloemocional [tema técnico]",d:"Encuentra el ángulo emocional detrás del tema técnico: qué siente la persona antes/durante/después de resolverlo.",cat:"idea",grp:"Ángulos y ganchos visuales"},
+{c:"/reveal [resultado impactante]",d:"Diseña 5 formas de estructurar el reveal para maximizar el efecto sorpresa en el momento exacto de mostrarlo.",cat:"idea",grp:"Ángulos y ganchos visuales"},
+{c:"/scoreidea [idea de contenido]",d:"Evalúa la idea en 5 criterios (originalidad, producción, potencial viral, alineación de marca, vigencia) del 1 al 10.",cat:"idea",grp:"Validación de ideas"},
+{c:"/comparaideas [idea A] vs [idea B]",d:"Compara ambas ideas en tiempo de producción esperado, riesgo, y potencial de alcance, con recomendación final.",cat:"idea",grp:"Validación de ideas"},
+{c:"/premortemcontenido [idea arriesgada]",d:"Imagina que la idea no funcionó y lista las 3 razones más probables, para corregirlas antes de grabar.",cat:"idea",grp:"Validación de ideas"},
+{c:"/testmini [concepto nuevo]",d:"Sugiere la versión más pequeña y rápida de probar el concepto antes de invertir tiempo de producción completo.",cat:"idea",grp:"Validación de ideas"},
+{c:"/prestamosector [industria ajena]",d:"Identifica 5 formatos visuales que funcionan en esa industria y que podrías adaptar a tu contenido de IA/automatización.",cat:"idea",grp:"Inspiración cruzada"},
+{c:"/remixformato [formato usado] [nuevo tema]",d:"Aplica la estructura de un formato que ya sabés que funciona a un nuevo tema sin repetir el contenido exacto.",cat:"idea",grp:"Inspiración cruzada"},
+{c:"/inspiracionviral [nicho] [rango de vistas]",d:"Describe patrones comunes de los videos más vistos en ese nicho y rango, sin copiar ninguno específico.",cat:"idea",grp:"Inspiración cruzada"},
+{c:"/anguloaudiencia [tu audiencia]",d:"Sugiere 5 ángulos de contenido diseñados específicamente para esa audiencia, no para el público general.",cat:"idea",grp:"Inspiración cruzada"},
+{c:"/formatohibrido [formato A] [formato B]",d:"Combina las mejores partes de ambos formatos en un concepto nuevo que no es ninguno de los dos por separado.",cat:"idea",grp:"Inspiración cruzada"},
+{c:"/definiragente [tarea repetitiva]",d:"Diseña la arquitectura básica de un agente: qué necesita saber, qué herramientas usa, cuándo debe pedir ayuda humana.",cat:"auto",grp:"Diseño de agentes"},
+{c:"/rolagente [función del agente]",d:"Escribe la definición de rol: personalidad, límites de lo que puede/no puede hacer, tono de comunicación.",cat:"auto",grp:"Diseño de agentes"},
+{c:"/flujoagente [proceso de negocio]",d:"Descompone el proceso en los pasos exactos que un agente necesitaría seguir, identificando dónde se necesita un humano.",cat:"auto",grp:"Diseño de agentes"},
+{c:"/multiagente [proyecto complejo]",d:"Propone cómo dividir el proyecto entre varios agentes especializados en vez de uno solo que hace de todo.",cat:"auto",grp:"Diseño de agentes"},
+{c:"/manejoerror [tipo de fallo]",d:"Diseña cómo debería reaccionar un agente ante ese fallo: reintentar, escalar a humano, o detenerse con un mensaje claro.",cat:"auto",grp:"Diseño de agentes"},
+{c:"/memoriaagente [contexto a recordar]",d:"Define qué información debería recordar un agente entre conversaciones, y qué debería olvidar por privacidad o simplicidad.",cat:"auto",grp:"Diseño de agentes"},
+{c:"/mapaflujo [proceso manual actual]",d:"Mapea el proceso paso a paso, señalando cuáles son candidatos claros a automatizar y cuáles deben seguir siendo humanos.",cat:"auto",grp:"Automatización de flujos"},
+{c:"/disparadores [resultado deseado]",d:"Identifica qué eventos deberían iniciar una automatización para lograr el resultado sin activarla manualmente.",cat:"auto",grp:"Automatización de flujos"},
+{c:"/integracionherramientas [herr. A] [herr. B]",d:"Sugiere cómo conectar ambas herramientas para automatizar el paso manual que hoy hacés entre ellas.",cat:"auto",grp:"Automatización de flujos"},
+{c:"/webhookdiseno [evento a capturar]",d:"Describe la estructura de datos que debería llevar un webhook para capturar el evento de forma completa y reutilizable.",cat:"auto",grp:"Automatización de flujos"},
+{c:"/colaescalamiento [tipo de solicitud]",d:"Diseña las reglas de cuándo la solicitud debe resolverse automáticamente vs. cuándo debe escalar a una persona real.",cat:"auto",grp:"Automatización de flujos"},
+{c:"/auditflujoexistente [automatización]",d:"Revisa la automatización buscando puntos donde probablemente se está rompiendo silenciosamente sin que lo notes.",cat:"auto",grp:"Automatización de flujos"},
+{c:"/systemprompt [rol del asistente]",d:"Escribe un system prompt completo: alcance, tono, reglas, qué debe rechazar hacer.",cat:"auto",grp:"Prompts de sistema"},
+{c:"/promptvariables [tarea repetible]",d:"Convierte la tarea en una plantilla de prompt reutilizable con variables entre corchetes y notas de uso.",cat:"auto",grp:"Prompts de sistema"},
+{c:"/promptdiagnostico [prompt que falla]",d:"Diagnostica por qué el prompt da resultados débiles: contexto insuficiente, instrucción ambigua, formato mal definido.",cat:"auto",grp:"Prompts de sistema"},
+{c:"/promptcadena [tarea de varios pasos]",d:"Divide la tarea en una cadena de prompts secuenciales, donde la salida de uno alimenta la entrada del siguiente.",cat:"auto",grp:"Prompts de sistema"},
+{c:"/promptfewshot [tarea] [2-3 ejemplos]",d:"Construye un prompt de few-shot que enseña el patrón exacto de la tarea usando los ejemplos que proporcionás.",cat:"auto",grp:"Prompts de sistema"},
+{c:"/costoagente [agente en producción]",d:"Estima en qué parte del flujo se está gastando más en tokens/llamadas, y sugiere dónde optimizar.",cat:"auto",grp:"Diagnóstico y mejora"},
+{c:"/pruebaagente [agente nuevo]",d:"Genera 10 casos de prueba (incluyendo casos límite e intentos de romperlo) para validar el agente antes de producción.",cat:"auto",grp:"Diagnóstico y mejora"},
+{c:"/latenciaflujo [automatización lenta]",d:"Analiza el flujo paso a paso para identificar en qué punto probablemente se acumula más tiempo de espera.",cat:"auto",grp:"Diagnóstico y mejora"},
+{c:"/versionagente [agente] [cambio propuesto]",d:"Evalúa el impacto de aplicar el cambio antes de implementarlo: qué mejora, qué riesgo introduce.",cat:"auto",grp:"Diagnóstico y mejora"},
+{c:"/documentaragente [agente construido]",d:"Genera documentación clara para que otra persona (o vos en 6 meses) entienda cómo funciona sin leer todo el código.",cat:"auto",grp:"Escalamiento"},
+{c:"/replicaragente [agente] [nuevo nicho]",d:"Adapta la lógica del agente para que sirva en un nicho distinto, señalando qué partes cambian y cuáles se mantienen.",cat:"auto",grp:"Escalamiento"},
+{c:"/pitchautomatizacion [proceso del cliente]",d:"Convierte el análisis del proceso en una propuesta clara de qué automatizarías, con el ahorro de tiempo estimado.",cat:"auto",grp:"Escalamiento"},
+{c:"/roimapagente [automatización propuesta]",d:"Estima en lenguaje simple el retorno esperado: tiempo ahorrado, errores evitados, capacidad liberada.",cat:"auto",grp:"Escalamiento"},
+{c:"/calificarlead [mensaje de un prospecto]",d:"Analiza el mensaje y estima su nivel de interés real e intención de compra basándose en el lenguaje usado.",cat:"neg",grp:"Prospección y leads"},
+{c:"/scriptprospeccion [nicho objetivo]",d:"Escribe un guion de primer contacto que abre con el problema específico del nicho, no con tu servicio.",cat:"neg",grp:"Prospección y leads"},
+{c:"/secuenciafollowup [contexto del prospecto]",d:"Diseña una secuencia de 3 mensajes de seguimiento, cada uno aportando algo nuevo, no solo un recordatorio vacío.",cat:"neg",grp:"Prospección y leads"},
+{c:"/objecionventas [objeción específica]",d:"Genera 3 respuestas a la objeción que no suenan defensivas ni a guion memorizado.",cat:"neg",grp:"Prospección y leads"},
+{c:"/perfilcliente [tu servicio]",d:"Construye el perfil de cliente ideal: su día típico, su mayor frustración, dónde busca soluciones hoy.",cat:"neg",grp:"Prospección y leads"},
+{c:"/propuestaservicio [proyecto del cliente]",d:"Redacta una propuesta: problema identificado, solución propuesta, entregables, inversión.",cat:"neg",grp:"Propuestas y cierres"},
+{c:"/llamadacierre [prospecto avanzado]",d:"Prepara los puntos clave para una llamada de cierre: sus dudas pendientes, tu respuesta a cada una, el siguiente paso.",cat:"neg",grp:"Propuestas y cierres"},
+{c:"/contratoresumen [términos del acuerdo]",d:"Convierte los términos en un resumen claro y amigable para el cliente antes de formalizar el contrato legal.",cat:"neg",grp:"Propuestas y cierres"},
+{c:"/upsellcliente [cliente] [servicio adicional]",d:"Escribe el mensaje para ofrecer el servicio adicional de forma natural, basado en resultados que ya vio contigo.",cat:"neg",grp:"Propuestas y cierres"},
+{c:"/cierresuave [conversación de venta]",d:"Sugiere 3 formas de cerrar sin presión agresiva, dejando la decisión clara pero cómoda para el prospecto.",cat:"neg",grp:"Propuestas y cierres"},
+{c:"/estructuraprecio [servicio]",d:"Propone 3 formas de estructurar el precio (por proyecto, por resultado, por suscripción) con pros y contras.",cat:"neg",grp:"Precios y ofertas"},
+{c:"/paqueteservicios [servicios que ofrecés]",d:"Agrupa los servicios en 3 paquetes con nombres claros, cada uno con un cliente ideal distinto en mente.",cat:"neg",grp:"Precios y ofertas"},
+{c:"/justificarprecio [precio de tu servicio]",d:"Redacta cómo comunicar el precio de forma que se perciba justo, conectándolo con el resultado esperado.",cat:"neg",grp:"Precios y ofertas"},
+{c:"/ofertalimitada [promoción real]",d:"Estructura la promoción con un límite genuino (tiempo, cupos) y el mensaje que la acompaña, sin presión artificial.",cat:"neg",grp:"Precios y ofertas"},
+{c:"/checkincliente [tiempo desde la entrega]",d:"Escribe un mensaje de seguimiento enfocado en cómo le está yendo al cliente, no en vender de nuevo.",cat:"neg",grp:"Retención y clientes"},
+{c:"/recuperarcliente [cliente que se fue]",d:"Escribe un mensaje honesto para reconectar, sin ignorar por qué se fue ni sonar desesperado por recuperarlo.",cat:"neg",grp:"Retención y clientes"},
+{c:"/pedirtestimonio [resultado logrado]",d:"Escribe el mensaje para pedir un testimonio, con preguntas guía que faciliten que responda algo útil.",cat:"neg",grp:"Retención y clientes"},
+{c:"/diagnosticonegocio [situación actual]",d:"Analiza tu situación actual y señala el cuello de botella más probable que limita el crecimiento ahora mismo.",cat:"neg",grp:"Análisis de negocio"},
+{c:"/priorizarproyectos [lista de proyectos]",d:"Ordena la lista por impacto esperado vs. esfuerzo de ejecución, con una recomendación de por dónde empezar.",cat:"neg",grp:"Análisis de negocio"},
+{c:"/proyeccionsimple [datos del negocio]",d:"Con esos datos, hace una proyección simple de los próximos 3 meses bajo un escenario conservador y uno optimista.",cat:"neg",grp:"Análisis de negocio"},
+{c:"/guioncorto [tema] [duración]",d:"Escribe un guion hablado con gancho en los primeros 3 segundos y un cierre claro con llamado a la acción.",cat:"video",grp:"Estructura de guion"},
+{c:"/estructura3actos [mensaje]",d:"Organiza el mensaje en tres actos cortos: el problema, el descubrimiento, la aplicación, pensado para hablar de corrido.",cat:"video",grp:"Estructura de guion"},
+{c:"/loopabierto [tema del video]",d:"Diseña un loop abierto al inicio: algo que se menciona pero no se resuelve hasta el final, para mantener la atención.",cat:"video",grp:"Estructura de guion"},
+{c:"/guionvoz [tema] [tono deseado]",d:"Escribe el tema como si realmente lo fueras a decir en voz alta, evitando frases que se leen bien pero suenan raro.",cat:"video",grp:"Estructura de guion"},
+{c:"/finalfuerte [idea central del video]",d:"Escribe 5 opciones de cierre que dejen una idea memorable, no solo un cierre genérico.",cat:"video",grp:"Estructura de guion"},
+{c:"/ganchohablado [tema] [tipo]",d:"Escribe 5 líneas de gancho habladas en el estilo elegido (pregunta, confesión, dato, contradicción, reto directo).",cat:"video",grp:"Ganchos hablados"},
+{c:"/reescribirgancho [gancho actual]",d:"Reescribe el gancho 5 veces variando el enfoque, manteniendo el mismo mensaje pero cambiando cómo se presenta.",cat:"video",grp:"Ganchos hablados"},
+{c:"/ganchocontradiccion [creencia común]",d:"Escribe un gancho que contradice directamente la creencia común, generando curiosidad por saber el porqué.",cat:"video",grp:"Ganchos hablados"},
+{c:"/ganchonumero [tema]",d:"Escribe 5 ganchos que usan un número específico como ancla sobre el tema.",cat:"video",grp:"Ganchos hablados"},
+{c:"/mapaatencion [guion ya escrito]",d:"Marca los puntos donde la atención probablemente baja, y sugiere un re-gancho o corte visual justo ahí.",cat:"video",grp:"Edición y ritmo"},
+{c:"/ritmohabla [guion]",d:"Ajusta el ritmo alternando frases cortas y largas para que no suene monótono al hablarlo de corrido.",cat:"video",grp:"Edición y ritmo"},
+{c:"/cortesvisuales [guion]",d:"Sugiere en qué momentos exactos deberías cambiar de plano, mostrar un clip de apoyo, o cortar a otra ubicación.",cat:"video",grp:"Edición y ritmo"},
+{c:"/guiontutorial [herramienta o proceso]",d:"Escribe un guion tipo tutorial mostrando el resultado final primero y luego los pasos para llegar ahí.",cat:"video",grp:"Formatos específicos"},
+{c:"/guionreaccion [contenido a comentar]",d:"Escribe un guion de reacción que aporta un análisis propio, no solo comentarios de relleno mientras se reproduce.",cat:"video",grp:"Formatos específicos"},
+{c:"/guionpodcastclip [tema del episodio]",d:"Identifica el momento más citable y escribe la introducción de 5 segundos que necesita ese clip para funcionar solo.",cat:"video",grp:"Formatos específicos"},
+{c:"/prioridaddia [lista de pendientes]",d:"Identifica las 3 tareas que realmente mueven el negocio hoy, y cuáles podés ignorar sin culpa.",cat:"prod",grp:"Priorización"},
+{c:"/bloqueoenfoque [tarea que evitás]",d:"Diagnostica por qué estás evitando la tarea y da una versión de 10 minutos para empezarla sin presión de terminarla toda.",cat:"prod",grp:"Priorización"},
+{c:"/decisionrapida [decisión pendiente]",d:"Fuerza una decisión evaluando reversibilidad, costo de esperar más, y arrepentimiento potencial de cada opción.",cat:"prod",grp:"Priorización"},
+{c:"/semanaideal [objetivos de la semana]",d:"Distribuye los objetivos en bloques de tiempo realistas, dejando espacio para imprevistos.",cat:"prod",grp:"Priorización"},
+{c:"/documentarproceso [algo que hacés de memoria]",d:"Convierte el proceso en algo documentado, con los pasos que das por hecho pero que otra persona necesitaría saber.",cat:"prod",grp:"Documentación y procesos"},
+{c:"/checklistlanzamiento [tipo de lanzamiento]",d:"Genera un checklist de pre-lanzamiento con las cosas que se te suelen olvidar bajo presión de tiempo.",cat:"prod",grp:"Documentación y procesos"},
+{c:"/plantillarecurrente [tarea que repetís]",d:"Convierte la tarea en una plantilla con las partes fijas ya resueltas y solo las variables por completar cada vez.",cat:"prod",grp:"Documentación y procesos"},
+{c:"/handoffproyecto [proyecto en curso]",d:"Escribe una nota de traspaso: qué está decidido, qué sigue pendiente, y qué hay que vigilar.",cat:"prod",grp:"Documentación y procesos"},
+{c:"/rutinamanana [tipo de día que querés]",d:"Diseña una rutina de mañana con los primeros 3 pasos al despertar.",cat:"prod",grp:"Rutinas"},
+{c:"/cierredia [pendientes abiertos]",d:"Diseña un ritual de cierre de día: qué anotar, qué dejar listo para mañana, qué soltar por hoy.",cat:"prod",grp:"Rutinas"},
+{c:"/resetrapido",d:"Da un protocolo de 5 minutos para recuperar el foco cuando te sentís disperso en medio del día de trabajo.",cat:"prod",grp:"Rutinas"},
+{c:"/revisionsemanal [semana que pasó]",d:"Estructura una revisión: qué funcionó, qué se estancó, y un solo ajuste concreto para la próxima semana.",cat:"prod",grp:"Rutinas"},
+{c:"/briefdelegacion [tarea a delegar]",d:"Escribe un brief con resultado esperado, ejemplos de referencia, y el punto exacto donde deben consultarte.",cat:"prod",grp:"Delegación"},
+{c:"/criteriosaceptacion [entregable esperado]",d:"Define los criterios claros que debe cumplir el entregable para considerarse terminado.",cat:"prod",grp:"Delegación"},
+{c:"/scriptseguimiento [tarea delegada]",d:"Escribe el mensaje de seguimiento que pide status sin sonar a microgestión ni a desconfianza.",cat:"prod",grp:"Delegación"},
+{c:"/antesderesponder [tarea]",d:"Antes de resolver la tarea, pide hasta 5 preguntas que cambiarían la respuesta, y que espere tu respuesta antes de continuar.",cat:"prompt",grp:"Antes de responder"},
+{c:"/opcionesantes [problema]",d:"En vez de resolver el problema de una, pide 3 enfoques distintos con ventajas y desventajas, y que pregunte cuál preferís.",cat:"prompt",grp:"Antes de responder"},
+{c:"/supuestos [petición]",d:"Pide que liste todos los supuestos que está haciendo antes de responder, para que vos los corrijas si están mal.",cat:"prompt",grp:"Antes de responder"},
+{c:"/zoomout [pregunta puntual]",d:"Antes de responder, pide que identifique el principio general detrás, y que responda partiendo de ahí.",cat:"prompt",grp:"Antes de responder"},
+{c:"/primeroeloportuno [tarea]",d:"Antes de hacer la tarea, pide que evalúe si es la pregunta correcta que deberías estar haciendo, y sugiera una mejor si aplica.",cat:"prompt",grp:"Antes de responder"},
+{c:"/autoevaluacion [tarea]",d:"Pide que resuelva la tarea, luego cree su propio criterio de calidad de 5 puntos, y evalúe su respuesta contra ese criterio.",cat:"prompt",grp:"Calidad y revisión"},
+{c:"/tresversiones [tarea]",d:"Pide que haga la tarea tres veces: un borrador, una autocrítica, y una versión final mejorada, mostrando resultado y cambios.",cat:"prompt",grp:"Calidad y revisión"},
+{c:"/critico [texto o plan]",d:"Pide que analice el texto o plan como un crítico exigente, buscando debilidades reales, no elogios superficiales.",cat:"prompt",grp:"Calidad y revisión"},
+{c:"/confianzaclaims [respuesta sobre un tema]",d:"Pide que etiquete cada afirmación como segura, probable, o especulativa.",cat:"prompt",grp:"Calidad y revisión"},
+{c:"/quefalta [borrador]",d:"Pide que, sin editar el borrador, solo liste qué información importante falta.",cat:"prompt",grp:"Calidad y revisión"},
+{c:"/panelexpertos [problema]",d:"Responde el problema simulando un panel de 3 expertos con visiones distintas que debaten antes de llegar a una recomendación.",cat:"prompt",grp:"Perspectivas múltiples"},
+{c:"/abogadodeldiablo [tu plan]",d:"Pide que argumente en contra de tu plan de la forma más convincente posible, y luego te diga qué puntos realmente aplican.",cat:"prompt",grp:"Perspectivas múltiples"},
+{c:"/perspectivatiempo [decisión]",d:"Evalúa la decisión desde tres distancias de tiempo (10 minutos, 10 meses, 10 años) y señala dónde no coinciden.",cat:"prompt",grp:"Perspectivas múltiples"},
+{c:"/lentesector [tema] [industria de referencia]",d:"Analiza el tema estrictamente desde la lógica de esa industria, no la tuya habitual.",cat:"prompt",grp:"Perspectivas múltiples"},
+{c:"/vozescepticaaudiencia [idea]",d:"Responde como lo haría un miembro escéptico de tu audiencia, con las dudas que de verdad tendría antes de confiar.",cat:"prompt",grp:"Perspectivas múltiples"},
+{c:"/ensename [tema] [nivel]",d:"Explica el tema al nivel indicado usando solo preguntas, corrigiendo tus respuestas incorrectas con pistas, no con la respuesta.",cat:"prompt",grp:"Aprendizaje"},
+{c:"/explicasencillo [tema complejo]",d:"Explica el tema usando una sola analogía cotidiana que se sostenga durante toda la explicación.",cat:"prompt",grp:"Aprendizaje"},
+{c:"/quizrapido [tema] [nivel]",d:"Te hace 5 preguntas, una por una, ajustando la dificultad según cómo vayas respondiendo.",cat:"prompt",grp:"Aprendizaje"},
+{c:"/comparaenfoques [método A] vs [método B]",d:"Explica las diferencias reales, cuándo usar cada uno, y cuándo la diferencia realmente no importa.",cat:"prompt",grp:"Aprendizaje"},
+{c:"/casosreales [concepto abstracto]",d:"Da 3 ejemplos concretos y reales de cómo se aplica el concepto, no solo la definición teórica.",cat:"prompt",grp:"Aprendizaje"},
+{c:"/simplificarprompt [tu prompt actual]",d:"Reescribe tu prompt para que sea la mitad de largo sin perder claridad, mostrando qué palabras eran ruido.",cat:"prompt",grp:"Meta-prompting"},
+{c:"/diagnosticoprompt [prompt que falló]",d:"Analiza por qué el prompt dio un mal resultado: falta de contexto, instrucción ambigua, o formato no especificado.",cat:"prompt",grp:"Meta-prompting"},
+{c:"/promptreutilizable [algo que pedís seguido]",d:"Convierte lo que pedís seguido en una plantilla de prompt con variables claras entre corchetes, lista para reutilizar.",cat:"prompt",grp:"Meta-prompting"},
+{c:"/comparaprompts [versión A] vs [versión B]",d:"Compara dos formas distintas de pedir lo mismo y explica qué diferencia real de resultado esperar entre ambas.",cat:"prompt",grp:"Meta-prompting"},
+{c:"/promptmaestro [objetivo final]",d:"Diseña el prompt maestro ideal para lograr el objetivo de forma consistente, combinando contexto, formato y ejemplos.",cat:"prompt",grp:"Meta-prompting"},
+];
+
+const CAT_LABELS = {
+  m10k:"Imagen · M10K",
+  img:"Imagen · Producto",
+  cont:"Contenido & Redes",
+  copy:"Copywriting",
+  idea:"Ideas Visuales",
+  auto:"Automatización & Agentes",
+  neg:"Negocio & Ventas",
+  video:"Guiones & Video",
+  prod:"Productividad",
+  prompt:"Prompting Avanzado"
+};
+const CAT_ORDER = ["m10k","img","cont","copy","idea","auto","neg","video","prod","prompt"];
+
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const paramize = s => esc(s).replace(/\[([^\]]+)\]/g,'<span class="param">[$1]</span>');
+
+let curCat = "all", curQ = "";
+const listEl = document.getElementById('list');
+const filtersEl = document.getElementById('filters');
+const countEl = document.getElementById('count');
+const qEl = document.getElementById('q');
+const toastEl = document.getElementById('toast');
+
+function buildFilters(){
+  const counts = {};
+  COMMANDS.forEach(c => counts[c.cat] = (counts[c.cat]||0)+1);
+  let html = '<button class="fbtn on" data-cat="all">Todos <span class="n">'+COMMANDS.length+'</span></button>';
+  CAT_ORDER.forEach(cat => {
+    if(!counts[cat]) return;
+    html += '<button class="fbtn" data-cat="'+cat+'">'+CAT_LABELS[cat]+' <span class="n">'+counts[cat]+'</span></button>';
+  });
+  filtersEl.innerHTML = html;
+}
+
+function render(){
+  const q = norm(curQ.trim());
+  const items = COMMANDS.filter(c => {
+    if(curCat !== "all" && c.cat !== curCat) return false;
+    if(!q) return true;
+    return norm(c.c).includes(q) || norm(c.d).includes(q);
+  });
+  countEl.innerHTML = items.length === COMMANDS.length
+    ? '<b>'+items.length+'</b> comandos'
+    : '<b>'+items.length+'</b> de '+COMMANDS.length+' comandos';
+
+  if(!items.length){
+    listEl.innerHTML = '<div class="empty"><span class="ebig">Sin resultados para "'+esc(curQ)+'"</span>Probá con otra palabra —un objeto, un estilo, una acción— o tocá <b>Todos</b> para volver a ver los '+COMMANDS.length+' comandos.</div>';
+    return;
+  }
+
+  const byCat = {};
+  items.forEach(c => { (byCat[c.cat] = byCat[c.cat]||[]).push(c); });
+  let html = "";
+  CAT_ORDER.forEach(cat => {
+    const arr = byCat[cat];
+    if(!arr) return;
+    const byGrp = {}, grpOrder = [];
+    arr.forEach(c => {
+      if(!byGrp[c.grp]){ byGrp[c.grp] = []; grpOrder.push(c.grp); }
+      byGrp[c.grp].push(c);
+    });
+    grpOrder.forEach(grp => {
+      const cards = byGrp[grp].map(c =>
+        '<div class="card" tabindex="0" data-cmd="'+esc(c.c)+'"><span class="copyhint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>copiar</span><div class="code">'+paramize(c.c)+'</div><div class="desc">'+esc(c.d)+'</div></div>'
+      ).join("");
+      html += '<section class="group"><div class="grouphead"><span class="gcat">'+CAT_LABELS[cat]+'</span><h2>'+esc(grp)+'</h2><span class="gcount">'+byGrp[grp].length+'</span><span class="line"></span></div><div class="cards">'+cards+'</div></section>';
+    });
+  });
+  listEl.innerHTML = html;
+}
+
+let toastT;
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => toastEl.classList.remove('show'), 1600);
+}
+
+function copyText(text, label){
+  navigator.clipboard.writeText(text).then(() => toast(label)).catch(() => toast('No se pudo copiar'));
+}
+
+function copySetup(){
+  const el = document.getElementById('setupPrompt').cloneNode(true);
+  const btn = el.querySelector('.copyp'); if(btn) btn.remove();
+  copyText(el.textContent.trim(), 'Mensaje base copiado ✓');
+}
+window.copySetup = copySetup;
+
+qEl.addEventListener('input', e => { curQ = e.target.value; render(); });
+filtersEl.addEventListener('click', e => {
+  const b = e.target.closest('.fbtn'); if(!b) return;
+  curCat = b.dataset.cat;
+  filtersEl.querySelectorAll('.fbtn').forEach(x => x.classList.toggle('on', x === b));
+  render();
+});
+listEl.addEventListener('click', e => {
+  const card = e.target.closest('.card'); if(!card) return;
+  copyText(card.dataset.cmd, card.dataset.cmd + ' ✓');
+});
+listEl.addEventListener('keydown', e => {
+  if(e.key !== 'Enter' && e.key !== ' ') return;
+  const card = e.target.closest('.card'); if(!card) return;
+  e.preventDefault();
+  copyText(card.dataset.cmd, card.dataset.cmd + ' ✓');
+});
+
+const totalEl = document.getElementById('total');
+if(totalEl) totalEl.textContent = COMMANDS.length;
+
+const themeBtn = document.getElementById('themeBtn');
+if(themeBtn) themeBtn.addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const next = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try{ localStorage.setItem('theme', next); }catch(e){}
+});
+
+document.addEventListener('keydown', e => {
+  if(e.key === '/' && document.activeElement !== qEl){
+    e.preventDefault();
+    qEl.focus();
+  }
+});
+
+buildFilters();
+render();
+</script>
+</body>
+</html>
