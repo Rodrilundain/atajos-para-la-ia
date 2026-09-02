@@ -177,9 +177,8 @@
   .filterbar{position:sticky;top:0;z-index:30;background:var(--bar);
     backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);margin-top:22px}
-  .filterbar .wrap{display:flex;gap:7px;overflow-x:auto;padding-top:12px;padding-bottom:12px;
-    scrollbar-width:none}
-  .filterbar .wrap::-webkit-scrollbar{display:none}
+  .filterbar .wrap{display:flex;flex-wrap:wrap;gap:7px;padding-top:12px;padding-bottom:12px;
+    max-height:calc(100vh - 90px);overflow-y:auto}
   .fbtn{
     flex:0 0 auto;border:1px solid var(--line-2);background:var(--surface);
     color:var(--muted);font-family:var(--sans);font-size:13px;font-weight:500;
