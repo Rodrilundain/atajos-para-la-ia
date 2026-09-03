@@ -1,0 +1,41 @@
+name: "➕ Nuevo comando para el diccionario"
+description: "Sumá un comando nuevo al deck de atajos de IA. Un bot lo revisa y lo agrega solo."
+title: "[nuevo-comando] "
+labels: ["nuevo-comando"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Completá estos campos. Un bot va a revisar automáticamente si el comando ya existe o se parece mucho a otro, va a sugerir en qué categoría/grupo entra, y si está todo bien lo suma solo al diccionario y cierra este issue. No hace falta saber nada de git — con completar esto alcanza. No vas a tener (ni necesitás) ningún permiso de escritura sobre el repositorio.
+  - type: input
+    id: comando
+    attributes:
+      label: Comando
+      description: "Empieza con /. Si usa un parámetro, ponelo entre corchetes."
+      placeholder: "/micomando [producto]"
+    validations:
+      required: true
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Descripción
+      description: "Qué hace el comando, en una sola frase clara."
+      placeholder: "Convierte tu producto en..."
+    validations:
+      required: true
+  - type: input
+    id: categoria
+    attributes:
+      label: "Categoría (opcional)"
+      description: "Dejalo vacío para que el bot la sugiera solo. Si querés elegirla vos, copiá uno de estos valores tal cual: Imagen · M10K, Imagen · Producto, Contenido & Redes, Copywriting, Ideas Visuales, Automatización & Agentes, Negocio & Ventas, Guiones & Video, Productividad, Prompting Avanzado."
+      placeholder: "Imagen · Producto"
+    validations:
+      required: false
+  - type: input
+    id: grupo
+    attributes:
+      label: "Grupo (opcional)"
+      description: "El sub-grupo dentro de la categoría (por ejemplo: Luz y óptica, Redes sociales y formatos). Dejalo vacío para que el bot lo sugiera solo."
+      placeholder: "Estudio, campaña y catálogo"
+    validations:
+      required: false
