@@ -276,6 +276,86 @@
     .cards{gap:6px}
     .hero{padding:20px 0}
   }
+
+  /* ---------- Admin: alimentar diccionario ---------- */
+  .adminwrap{margin-top:26px}
+  .admin{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);
+    box-shadow:var(--sh-1);overflow:hidden}
+  .admin summary{
+    cursor:pointer;list-style:none;padding:15px 18px;font-weight:600;font-size:14.5px;
+    display:flex;align-items:center;gap:11px}
+  .admin summary::-webkit-details-marker{display:none}
+  .admin .admin-tag{
+    font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--ok);
+    background:rgba(14,159,110,.12);padding:3px 8px;border-radius:var(--r-xs)}
+  .admin .arw{margin-left:auto;color:var(--faint);font-size:18px;transition:transform .18s}
+  .admin[open] .arw{transform:rotate(90deg)}
+  .admin[open] summary{border-bottom:1px solid var(--line)}
+  .admin-body{padding:18px}
+  .admin-note{font-size:12.5px;color:var(--faint);line-height:1.55;margin:0 0 18px;padding:10px 12px;
+    background:var(--surface-2);border-radius:var(--r-sm);border:1px solid var(--line)}
+  .admin-note code{font-family:var(--mono)}
+  .admin-step{margin-bottom:22px}
+  .admin-step h3{font-family:var(--display);font-size:14px;font-weight:600;margin:0 0 10px;
+    display:flex;align-items:center;gap:8px}
+  .admin-step h3 .stepn{
+    width:20px;height:20px;border-radius:50%;background:var(--violet);color:#fff;
+    font-size:11px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .admin-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .admin input[type=password],.admin input[type=text],.admin textarea,.admin select{
+    font-family:var(--sans);font-size:13.5px;color:var(--ink);background:var(--surface-2);
+    border:1px solid var(--line-2);border-radius:var(--r-sm);padding:9px 11px;outline:none}
+  .admin input[type=password]:focus,.admin input[type=text]:focus,.admin textarea:focus,.admin select:focus{
+    border-color:var(--violet)}
+  .admin input[type=text]{flex:1;min-width:180px}
+  .admin input[type=password]{flex:1;min-width:220px}
+  .admbtn{
+    font-family:var(--sans);font-size:13px;font-weight:600;border-radius:var(--r-sm);
+    padding:9px 15px;cursor:pointer;border:1px solid transparent;transition:opacity .12s;white-space:nowrap}
+  .admbtn.primary{background:var(--violet);color:#fff}
+  .admbtn.primary:hover{opacity:.9}
+  .admbtn.ghost{background:transparent;color:var(--muted);border-color:var(--line-2)}
+  .admbtn.ghost:hover{border-color:var(--violet);color:var(--violet-ink)}
+  .admbtn:disabled{opacity:.5;cursor:not-allowed}
+  .tokstate{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .tokstate .dot{width:7px;height:7px;border-radius:50%;background:var(--faint);flex:0 0 auto}
+  .tokstate.on .dot{background:var(--ok)}
+  .tokstate a{color:var(--violet-ink)}
+  .modetabs{display:flex;gap:6px;margin-bottom:14px}
+  .modetab{
+    font-family:var(--sans);font-size:13px;font-weight:500;color:var(--muted);
+    background:var(--surface-2);border:1px solid var(--line-2);border-radius:999px;
+    padding:6px 13px;cursor:pointer}
+  .modetab.on{background:var(--violet);color:#fff;border-color:var(--violet)}
+  .admgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px}
+  @media(max-width:640px){.admgrid{grid-template-columns:1fr}}
+  .admfield label{display:block;font-size:12px;color:var(--faint);margin-bottom:4px;font-weight:500}
+  .csvdrop{
+    display:block;border:1.5px dashed var(--line-2);border-radius:var(--r-sm);padding:22px;text-align:center;
+    color:var(--muted);font-size:13px;cursor:pointer}
+  .csvdrop:hover{border-color:var(--violet)}
+  .csvdrop code{font-family:var(--mono)}
+  .restable{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px}
+  .restable th{text-align:left;color:var(--faint);font-size:11.5px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.3px;padding:6px 8px;border-bottom:1px solid var(--line)}
+  .restable td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+  .restable tr.row-dup{opacity:.55}
+  .restable code{font-family:var(--mono);font-size:12.5px}
+  .badge{
+    display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:600;
+    padding:2px 7px;border-radius:999px;white-space:nowrap}
+  .badge.new{background:rgba(14,159,110,.14);color:var(--ok)}
+  .badge.dup{background:var(--line);color:var(--muted)}
+  .badge.warn{background:var(--accent-wash);color:var(--accent)}
+  .restable select{font-size:12px;padding:5px 7px;max-width:170px}
+  .admlog{
+    margin-top:14px;font-family:var(--mono);font-size:12px;white-space:pre-wrap;
+    background:var(--code-bg);color:var(--code-ink);border-radius:var(--r-sm);padding:12px;
+    border:1px solid var(--code-line);max-height:200px;overflow:auto}
+  .admlog:empty{display:none}
+  .admsummary{font-size:13px;color:var(--muted);margin-top:10px}
+  .admsummary b{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -333,6 +413,72 @@ A partir de ahora, cada vez que te escriba uno de estos comandos, devolvé el re
 <main class="wrap">
   <div id="list"></div>
 </main>
+
+<section class="adminwrap wrap" id="adminSection">
+  <details class="admin" id="adminDetails">
+    <summary><span class="admin-tag">ADMIN</span> Alimentar el diccionario <span class="arw">›</span></summary>
+    <div class="admin-body">
+      <p class="admin-note">Esta sección es para el mantenedor del repo. Sumá comandos nuevos directo a <code>index.html</code> en GitHub: se revisan duplicados exactos, se avisa si la descripción se parece mucho a otra ya cargada, y se sugiere en qué categoría/grupo va cada uno antes de confirmar el commit. El token se guarda solo en este navegador (localStorage) — nunca se sube al repo ni sale de tu equipo. No lo pegues en una compu compartida.</p>
+
+      <div class="admin-step">
+        <h3><span class="stepn">1</span> Token de GitHub</h3>
+        <div class="admin-row">
+          <input type="password" id="ghToken" placeholder="ghp_… o github_pat_… (permiso Contents: Read &amp; Write en este repo)" autocomplete="off" spellcheck="false">
+          <button class="admbtn primary" id="saveTokBtn" type="button">Guardar en este navegador</button>
+          <button class="admbtn ghost" id="clearTokBtn" type="button">Borrar</button>
+        </div>
+        <div class="tokstate" id="tokState"><span class="dot"></span><span id="tokStateTxt">Sin token guardado</span> · <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Crear token fine-grained</a></div>
+      </div>
+
+      <div class="admin-step">
+        <h3><span class="stepn">2</span> Comandos a agregar</h3>
+        <div class="modetabs">
+          <button class="modetab on" data-mode="single" type="button">Un comando</button>
+          <button class="modetab" data-mode="csv" type="button">Archivo CSV</button>
+        </div>
+
+        <div id="modeSingle">
+          <div class="admgrid">
+            <div class="admfield">
+              <label>Comando</label>
+              <input type="text" id="inC" placeholder="/micomando [producto]">
+            </div>
+            <div class="admfield">
+              <label>Descripción</label>
+              <input type="text" id="inD" placeholder="Qué hace, en una frase.">
+            </div>
+          </div>
+        </div>
+
+        <div id="modeCsv" style="display:none">
+          <label class="csvdrop" for="csvFile">
+            <input type="file" id="csvFile" accept=".csv" style="display:none">
+            Elegí un .csv con columnas <code>comando,descripcion</code> (opcional: <code>categoria,grupo</code>)
+          </label>
+          <div class="admsummary" id="csvSummary"></div>
+        </div>
+
+        <div class="admin-row" style="margin-top:14px">
+          <button class="admbtn primary" id="analyzeBtn" type="button">Analizar</button>
+        </div>
+      </div>
+
+      <div class="admin-step" id="resultsStep" style="display:none">
+        <h3><span class="stepn">3</span> Revisión</h3>
+        <div class="admsummary" id="resSummary"></div>
+        <div style="overflow-x:auto">
+          <table class="restable" id="resTable"><thead><tr>
+            <th></th><th>Comando</th><th>Descripción</th><th>Categoría</th><th>Grupo</th><th>Estado</th>
+          </tr></thead><tbody id="resBody"></tbody></table>
+        </div>
+        <div class="admin-row" style="margin-top:14px">
+          <button class="admbtn primary" id="commitBtn" type="button">Confirmar y subir a GitHub</button>
+        </div>
+        <div class="admlog" id="admLog"></div>
+      </div>
+    </div>
+  </details>
+</section>
 
 <footer>
   <div class="wrap">
@@ -1159,6 +1305,295 @@ document.addEventListener('keydown', e => {
 
 buildFilters();
 render();
+
+/* ================= ADMIN: alimentar diccionario ================= */
+(function(){
+  const OWNER='Rodrilundain', REPO='atajos-para-la-ia', FPATH='index.html', BRANCH='main';
+  const TOK_KEY='atajos_gh_pat';
+  const STOP = new Set(['de','la','el','en','con','un','una','para','del','al','que','sin','su','tu','los','las','y','o','the','of','to','and','or','tus','tipo','como','tan','tanto','tras','tal','sus','esta','este','estos','estas','muy','mas','más']);
+
+  function tokenize(s){
+    return norm(s||'')
+      .replace(/[\/\[\]().,;:!?"'’“”-]/g,' ')
+      .split(/\s+/).filter(w => w.length>2 && !STOP.has(w));
+  }
+  function tokenSet(s){ return new Set(tokenize(s)); }
+  function jaccard(a,b){
+    if(!a.size || !b.size) return 0;
+    let inter=0;
+    for(const x of a) if(b.has(x)) inter++;
+    return inter / (a.size + b.size - inter);
+  }
+  function cmdKey(c){ return (c||'').trim().split(' ')[0].toLowerCase(); }
+  function b64EncodeUtf8(str){ return btoa(unescape(encodeURIComponent(str))); }
+  function b64DecodeUtf8(str){ return decodeURIComponent(escape(atob(str))); }
+  function escJS(s){ return String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"'); }
+
+  function parseCommandsFromText(text){
+    const start = text.indexOf('const COMMANDS = [');
+    if(start<0) throw new Error('No se encontró el array COMMANDS en el archivo.');
+    const close = text.indexOf('\n];', start);
+    if(close<0) throw new Error('No se encontró el cierre del array COMMANDS.');
+    const arrText = text.slice(start + 'const COMMANDS = '.length, close+2);
+    let arr;
+    try{ arr = (new Function('return ' + arrText))(); }
+    catch(e){ throw new Error('No se pudo interpretar COMMANDS: '+e.message); }
+    return { arr, close };
+  }
+
+  function buildGrpIndex(){
+    const idx = new Map();
+    COMMANDS.forEach(item => {
+      const key = item.cat + '|' + item.grp;
+      if(!idx.has(key)) idx.set(key, {cat:item.cat, grp:item.grp, tokens:new Set()});
+      const g = idx.get(key);
+      tokenize(item.c).forEach(t=>g.tokens.add(t));
+      tokenize(item.d).forEach(t=>g.tokens.add(t));
+    });
+    return idx;
+  }
+
+  function suggestCatGrp(c, d, grpIndex){
+    const t = new Set([...tokenize(c), ...tokenize(d)]);
+    let best=null, bestScore=0;
+    grpIndex.forEach(g=>{
+      const score = jaccard(t, g.tokens);
+      if(score>bestScore){ bestScore=score; best=g; }
+    });
+    return best ? {cat:best.cat, grp:best.grp, score:bestScore} : {cat:'img', grp:'Otros', score:0};
+  }
+
+  function findExactDup(key){ return COMMANDS.find(x => cmdKey(x.c)===key); }
+  function findSimilar(d, excludeKey){
+    const t = tokenSet(d);
+    let best=null, bestScore=0;
+    COMMANDS.forEach(x=>{
+      if(cmdKey(x.c)===excludeKey) return;
+      const s = jaccard(t, tokenSet(x.d));
+      if(s>bestScore){ bestScore=s; best=x; }
+    });
+    return bestScore>=0.5 ? {match:best, score:bestScore} : null;
+  }
+
+  function parseCSV(text){
+    const rows=[]; let i=0, field='', row=[], inQ=false;
+    while(i<text.length){
+      const ch=text[i];
+      if(inQ){
+        if(ch==='"'){ if(text[i+1]==='"'){ field+='"'; i+=2; continue; } inQ=false; i++; continue; }
+        field+=ch; i++; continue;
+      } else {
+        if(ch==='"'){ inQ=true; i++; continue; }
+        if(ch===','){ row.push(field); field=''; i++; continue; }
+        if(ch==='\r'){ i++; continue; }
+        if(ch==='\n'){ row.push(field); rows.push(row); row=[]; field=''; i++; continue; }
+        field+=ch; i++; continue;
+      }
+    }
+    if(field.length || row.length){ row.push(field); rows.push(row); }
+    return rows.filter(r => r.some(c=>c.trim()!==''));
+  }
+
+  function normalizeCmdInput(raw){
+    raw = (raw||'').trim();
+    if(!raw) return '';
+    if(raw[0] !== '/') raw = '/' + raw;
+    return raw;
+  }
+
+  const $ = sel => document.querySelector(sel);
+  const tokInput = $('#ghToken'), tokState = $('#tokState'), tokStateTxt = $('#tokStateTxt');
+  function refreshTokUI(){
+    let t = null;
+    try{ t = localStorage.getItem(TOK_KEY); }catch(e){}
+    if(t){ tokState.classList.add('on'); tokStateTxt.textContent = 'Token guardado en este navegador ✓'; tokInput.value=''; tokInput.placeholder='•••••••••••••• (guardado)'; }
+    else { tokState.classList.remove('on'); tokStateTxt.textContent = 'Sin token guardado'; tokInput.placeholder='ghp_… o github_pat_… (permiso Contents: Read & Write en este repo)'; }
+  }
+  $('#saveTokBtn').addEventListener('click', ()=>{
+    const v = tokInput.value.trim();
+    if(!v){ toast('Pegá un token primero'); return; }
+    try{ localStorage.setItem(TOK_KEY, v); toast('Token guardado ✓'); }catch(e){ toast('No se pudo guardar (localStorage bloqueado)'); }
+    refreshTokUI();
+  });
+  $('#clearTokBtn').addEventListener('click', ()=>{
+    try{ localStorage.removeItem(TOK_KEY); }catch(e){}
+    refreshTokUI();
+    toast('Token borrado');
+  });
+  refreshTokUI();
+
+  let mode='single';
+  document.querySelectorAll('.modetab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      mode = btn.dataset.mode;
+      document.querySelectorAll('.modetab').forEach(b=>b.classList.toggle('on', b===btn));
+      $('#modeSingle').style.display = mode==='single' ? '' : 'none';
+      $('#modeCsv').style.display = mode==='csv' ? '' : 'none';
+    });
+  });
+
+  let csvRows = null;
+  $('#csvFile').addEventListener('change', async (e)=>{
+    const f = e.target.files[0];
+    if(!f) return;
+    const text = await f.text();
+    const rows = parseCSV(text);
+    if(!rows.length){ $('#csvSummary').textContent = 'Archivo vacío.'; csvRows=null; return; }
+    const header = rows[0].map(h=>norm(h.trim()));
+    const idxC = header.findIndex(h=>['comando','command','c'].includes(h));
+    const idxD = header.findIndex(h=>['descripcion','description','d','desc'].includes(h));
+    const idxCat = header.findIndex(h=>['categoria','category','cat'].includes(h));
+    const idxGrp = header.findIndex(h=>['grupo','group','grp'].includes(h));
+    if(idxC<0 || idxD<0){ $('#csvSummary').textContent = 'El CSV necesita al menos columnas "comando" y "descripcion".'; csvRows=null; return; }
+    csvRows = rows.slice(1).map(r=>({
+      c: normalizeCmdInput(r[idxC]||''),
+      d: (r[idxD]||'').trim(),
+      cat: idxCat>=0 ? (r[idxCat]||'').trim() : '',
+      grp: idxGrp>=0 ? (r[idxGrp]||'').trim() : ''
+    })).filter(r=>r.c && r.d);
+    $('#csvSummary').textContent = csvRows.length + ' fila(s) leídas del CSV.';
+  });
+
+  let currentRows = [];
+  function catOptionsHtml(selected){
+    return CAT_ORDER.map(c=>'<option value="'+c+'" '+(c===selected?'selected':'')+'>'+CAT_LABELS[c]+'</option>').join('');
+  }
+  function grpOptionsHtml(cat, selected){
+    const grps = Array.from(new Set(COMMANDS.filter(x=>x.cat===cat).map(x=>x.grp))).sort();
+    let html = grps.map(g=>'<option value="'+esc(g)+'" '+(g===selected?'selected':'')+'>'+esc(g)+'</option>').join('');
+    if(!grps.includes(selected)) html += '<option value="'+esc(selected)+'" selected>'+esc(selected)+' (nuevo)</option>';
+    return html;
+  }
+
+  function renderResults(){
+    const tbody = $('#resBody');
+    tbody.innerHTML = currentRows.map((row,i)=>{
+      const st = row.status;
+      const badge = st==='dup' ? '<span class="badge dup">Ya existe</span>'
+        : st==='warn' ? '<span class="badge warn">Parecido a '+esc(row.simMatch)+'</span>'
+        : '<span class="badge new">Nuevo</span>';
+      const checked = row.include ? 'checked' : '';
+      const rowCls = st==='dup' ? 'row-dup' : '';
+      return '<tr class="'+rowCls+'" data-i="'+i+'">'
+        + '<td><input type="checkbox" class="rowChk" '+checked+' '+(st==='dup'?'disabled':'')+'></td>'
+        + '<td><code>'+esc(row.c)+'</code></td>'
+        + '<td>'+esc(row.d)+'</td>'
+        + '<td><select class="rowCat">'+catOptionsHtml(row.cat)+'</select></td>'
+        + '<td><select class="rowGrp">'+grpOptionsHtml(row.cat, row.grp)+'</select></td>'
+        + '<td>'+badge+'</td></tr>';
+    }).join('');
+
+    tbody.querySelectorAll('tr').forEach(tr=>{
+      const i = +tr.dataset.i;
+      const chk = tr.querySelector('.rowChk');
+      if(chk) chk.addEventListener('change', e=>{ currentRows[i].include = e.target.checked; });
+      tr.querySelector('.rowCat').addEventListener('change', e=>{
+        currentRows[i].cat = e.target.value;
+        tr.querySelector('.rowGrp').innerHTML = grpOptionsHtml(e.target.value, currentRows[i].grp);
+      });
+      tr.querySelector('.rowGrp').addEventListener('change', e=>{ currentRows[i].grp = e.target.value; });
+    });
+
+    const nNew = currentRows.filter(r=>r.status!=='dup' && r.include).length;
+    const nDup = currentRows.filter(r=>r.status==='dup').length;
+    const nWarn = currentRows.filter(r=>r.status==='warn').length;
+    $('#resSummary').innerHTML = '<b>'+nNew+'</b> para agregar · <b>'+nDup+'</b> ya existentes (omitidos) · <b>'+nWarn+'</b> con descripción parecida a revisar';
+    $('#resultsStep').style.display = '';
+  }
+
+  $('#analyzeBtn').addEventListener('click', ()=>{
+    let inputRows = [];
+    if(mode==='single'){
+      const c = normalizeCmdInput($('#inC').value);
+      const d = $('#inD').value.trim();
+      if(!c || !d){ toast('Completá comando y descripción'); return; }
+      inputRows = [{c,d,cat:'',grp:''}];
+    } else {
+      if(!csvRows || !csvRows.length){ toast('Cargá un CSV primero'); return; }
+      inputRows = csvRows;
+    }
+    const grpIndex = buildGrpIndex();
+    const seenKeys = new Set();
+    currentRows = inputRows.map(r=>{
+      const key = cmdKey(r.c);
+      const dup = !!(findExactDup(key) || seenKeys.has(key));
+      seenKeys.add(key);
+      let cat = r.cat, grp = r.grp;
+      if(!cat || !grp){
+        const sug = suggestCatGrp(r.c, r.d, grpIndex);
+        cat = cat || sug.cat; grp = grp || sug.grp;
+      }
+      let status = 'new', simMatch=null;
+      if(dup){ status='dup'; }
+      else {
+        const sim = findSimilar(r.d, key);
+        if(sim){ status='warn'; simMatch = sim.match.c; }
+      }
+      return { c:r.c, d:r.d, cat, grp, status, simMatch, include: status!=='dup' };
+    });
+    renderResults();
+  });
+
+  function log(msg){ const el=$('#admLog'); el.textContent += (el.textContent?'\n':'')+msg; el.scrollTop = el.scrollHeight; }
+
+  $('#commitBtn').addEventListener('click', async ()=>{
+    let token = null;
+    try{ token = localStorage.getItem(TOK_KEY); }catch(e){}
+    if(!token){ toast('Guardá un token primero'); return; }
+    const toAdd = currentRows.filter(r=>r.include && r.status!=='dup');
+    if(!toAdd.length){ toast('No hay comandos nuevos para subir'); return; }
+    $('#admLog').textContent='';
+    $('#commitBtn').disabled = true;
+    try{
+      log('Descargando la versión actual de index.html…');
+      const getResp = await fetch('https://api.github.com/repos/'+OWNER+'/'+REPO+'/contents/'+FPATH+'?ref='+BRANCH, {
+        headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json' }
+      });
+      if(!getResp.ok) throw new Error('No se pudo leer el archivo (HTTP '+getResp.status+'). Revisá el token y sus permisos.');
+      const getJson = await getResp.json();
+      const sha = getJson.sha;
+      const fileText = b64DecodeUtf8(getJson.content.replace(/\n/g,''));
+
+      const parsed = parseCommandsFromText(fileText);
+      const liveKeys = new Set(parsed.arr.map(x=>cmdKey(x.c)));
+      const freshNew = toAdd.filter(r=>!liveKeys.has(cmdKey(r.c)));
+      const skipped = toAdd.length - freshNew.length;
+      if(!freshNew.length){ log('Todo lo seleccionado ya está en la versión actual del repo (alguien más lo agregó mientras tanto). Nada para subir.'); $('#commitBtn').disabled=false; return; }
+      if(skipped>0) log(skipped+' comando(s) ya habían sido agregados por otra persona mientras revisabas — se omiten.');
+
+      const newLines = freshNew.map(r => '{c:"'+escJS(r.c)+'",d:"'+escJS(r.d)+'",cat:"'+escJS(r.cat)+'",grp:"'+escJS(r.grp)+'"},');
+      const dateTag = new Date().toISOString().slice(0,10);
+      const insertion = '\n// --- Agregado vía panel admin '+dateTag+' ---\n' + newLines.join('\n');
+      const newText = fileText.slice(0, parsed.close) + insertion + fileText.slice(parsed.close);
+
+      log('Subiendo '+freshNew.length+' comando(s) nuevo(s)…');
+      const putResp = await fetch('https://api.github.com/repos/'+OWNER+'/'+REPO+'/contents/'+FPATH, {
+        method:'PUT',
+        headers:{ Authorization:'Bearer '+token, Accept:'application/vnd.github+json', 'Content-Type':'application/json' },
+        body: JSON.stringify({
+          message: 'Agregar '+freshNew.length+' comando(s) via panel admin',
+          content: b64EncodeUtf8(newText),
+          sha, branch: BRANCH
+        })
+      });
+      if(!putResp.ok){
+        const j = await putResp.json().catch(()=>({}));
+        throw new Error('GitHub rechazó el commit (HTTP '+putResp.status+'): '+(j.message||'error desconocido'));
+      }
+      const putJson = await putResp.json();
+      log('¡Listo! Commit: '+(putJson.commit && putJson.commit.sha ? putJson.commit.sha.slice(0,7) : 'ok'));
+      toast(freshNew.length+' comando(s) subido(s) ✓');
+      const addedKeys = new Set(freshNew.map(r=>cmdKey(r.c)));
+      currentRows = currentRows.filter(r => !addedKeys.has(cmdKey(r.c)));
+      renderResults();
+    } catch(err){
+      log('Error: '+err.message);
+      toast('Falló la subida — mirá el detalle abajo');
+    } finally {
+      $('#commitBtn').disabled = false;
+    }
+  });
+})();
 </script>
 </body>
 </html>
